@@ -20,7 +20,7 @@ class ConnectionConstaints(Constraint):
     def __init__(self, m):
         self.connection_map = m
         # print type(self.connection_map)
-        print 'building a kernel constraint '
+        print('building a kernel constraint ')
 
     # def __init__(self, xx):
     #     # self.connection_map =xxw

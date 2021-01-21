@@ -38,7 +38,7 @@ def evalualte(y_test, y_pred, y_pred_score=None):
 
 
 def evalualte_classification_binary(y_test, y_pred, y_pred_score=None):
-    print y_test.shape, y_pred.shape
+    print(y_test.shape, y_pred.shape)
     accuracy = accuracy_score(y_test, y_pred)
     if y_pred_score is None:
         fpr, tpr, thresholds = metrics.roc_curve(y_test, y_pred, pos_label=1)

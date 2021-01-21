@@ -170,7 +170,7 @@ class Model(BaseEstimator):
 
     def get_th(self, y_validate, pred_scores):
         thresholds = np.arange(0.1, 0.9, 0.01)
-        print thresholds
+        print(thresholds)
         scores = []
         for th in thresholds:
             y_pred = pred_scores > th
@@ -186,7 +186,7 @@ class Model(BaseEstimator):
             score['th'] = th
             scores.append(score)
         ret = pd.DataFrame(scores)
-        print ret
+        print(ret)
         best = ret[ret.f1 == max(ret.f1)]
         th = best.th.values[0]
         return th
@@ -205,7 +205,7 @@ class Model(BaseEstimator):
         if self.class_weight == 'auto':
             classes = np.unique(y_train)
             class_weights = class_weight.compute_class_weight('balanced', classes, y_train.ravel())
-            class_weights = dict(zip(classes, class_weights))
+            class_weights = dict(list(zip(classes, class_weights)))
         else:
             class_weights = self.class_weight
 
@@ -265,8 +265,7 @@ class Model(BaseEstimator):
         #     saving_callback=[]
 
         if hasattr(self, 'feature_importance'):
-            self.coef_ = self.get_coef_importance(X_train, y_train, target=-1,
-                                                  feature_importance=self.feature_importance)
+            self.coef_ = self.get_coef_importance(X_train, y_train, target=-1, feature_importance=self.feature_importance)
 
         return self
 
@@ -314,7 +313,7 @@ class Model(BaseEstimator):
                 else:
                     prediction_scores = prediction_scores[-1]
 
-        print np.array(prediction_scores).shape
+        print(np.array(prediction_scores).shape)
         return np.array(prediction_scores)
 
     def predict_proba(self, X_test):
@@ -326,7 +325,7 @@ class Model(BaseEstimator):
         ret = np.ones((n_samples, 2))
         ret[:, 0] = 1. - prediction_scores.ravel()
         ret[:, 1] = prediction_scores.ravel()
-        print ret.shape
+        print(ret.shape)
         return ret
 
     def score(self, x_test, y_test):
@@ -353,7 +352,7 @@ class Model(BaseEstimator):
         functor = K.function(inputs=[inp, K.learning_phase()], outputs=outputs)  # evaluation function
         layer_outs = functor([X, 0.])
         # layer_outs = [func([X, 1.]) for func in functors]
-        ret = dict(zip(layer_names, layer_outs))
+        ret = dict(list(zip(layer_names, layer_outs)))
         return ret
 
     def save_model(self, filename):

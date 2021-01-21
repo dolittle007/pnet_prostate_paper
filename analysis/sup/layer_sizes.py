@@ -13,7 +13,7 @@ import seaborn as sns
 fig = plt.figure(figsize=(6,4), dpi=200)
 
 df= pd.DataFrame(nodes, index=['layer 0', 'layer 1', 'layer 2', 'layer 3', 'layer 4', 'layer 5', 'layer 6'], columns=['Number of nodes'])
-print  df
+print(df)
 ax = sns.barplot(x=df.index, y='Number of nodes', data=df )
 ax.set_yscale("log")
 

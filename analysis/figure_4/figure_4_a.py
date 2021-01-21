@@ -82,7 +82,7 @@ current_dir= join(current_dir, 'output')
 
 def plot_stacked_hist_cnv(df, gene_name, ax):
     ind = np.sort(df[gene_name].unique())
-    print ind
+    print(ind)
     primary_df = df[df['y'] == 0]
     mets_df = df[df['y'] == 1]
     p = primary_df[gene_name].value_counts()
@@ -117,7 +117,7 @@ def plot_stacked_hist_cnv(df, gene_name, ax):
 
 def plot_stacked_hist_mut(df, gene_name, ax):
     ind = np.sort(df[gene_name].unique())
-    print ind
+    print(ind)
     primary_df = df[df['y'] == 0]
     mets_df = df[df['y'] == 1]
     p = primary_df[gene_name].value_counts()

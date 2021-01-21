@@ -6,9 +6,9 @@ import numpy as np
 # from figure_2_c_confusion_matrix import plot_confusion_matrix_all
 from analysis.try_things.figure_2.figure2_c_gene_importance import plot_high_genes
 from analysis.try_things.figure_2.figure2_d_activation import plot_activation
-from figure_2_c_survival import plot_surv_all
-from figure_2_b_external_validation import plot_external_validation_all, plot_external_validation_matrix
-from figure_2_a_pnet_vs_dense import plot_pnet_vs_dense_auc, plot_pnet_vs_dense_ratio, plot_pnet_vs_dense_auc_with_ratio
+from .figure_2_c_survival import plot_surv_all
+from .figure_2_b_external_validation import plot_external_validation_all, plot_external_validation_matrix
+from .figure_2_a_pnet_vs_dense import plot_pnet_vs_dense_auc, plot_pnet_vs_dense_ratio, plot_pnet_vs_dense_auc_with_ratio
 
 
 def f(t):

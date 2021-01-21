@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 import logging
 import os
 import time
@@ -8,11 +8,11 @@ from matplotlib import pyplot as plt
 
 
 def save_model(model, filename):
-    print 'saving model in', filename
+    print('saving model in', filename)
     f = file(filename + '.pkl', 'wb')
     import sys
     sys.setrecursionlimit(100000)
-    cPickle.dump(model, f, protocol=cPickle.HIGHEST_PROTOCOL)
+    pickle.dump(model, f, protocol=pickle.HIGHEST_PROTOCOL)
     f.close()
 
 
@@ -20,7 +20,7 @@ def load_model(file_name):
     f = file(file_name + '.pkl', 'rb')
     # theano.config.reoptimize_unpickled_function = False
     start = time.time()
-    model = cPickle.load(f)
+    model = pickle.load(f)
     end = time.time()
     elapsed_time = end - start
     return model
@@ -123,7 +123,7 @@ def plot_channels(history, channels, filename, folder_name):
 
 
 def plot_history(history, folder_name):
-    keys = history.keys()
+    keys = list(history.keys())
 
     losses = [x for x in keys if ('_loss' in x) and (x != 'val_loss')]
     val_losses = [x for x in losses if 'val_' in x]

@@ -12,7 +12,7 @@ def label_diff(i,j,text,X,Y, stdv, yfactor=1.2):
 
     y = yfactor*max(Y[i]+stdv[i], Y[j]+stdv[j])
     y_text= y+0.04
-    print x, y,y_text
+    print(x, y,y_text)
     dx = abs(X[i]-X[j])
 
     # props = {'connectionstyle':'bar','arrowstyle':'-','shrinkA':20,'shrinkB':20,'linewidth':1}
@@ -29,10 +29,10 @@ fig, ax = plt.subplots(nrows=1, ncols=1, sharey=True, figsize=(3.5,4), dpi=200)
 df = pd.read_excel('./CRISPR/092420 Data.xlsx', sheet_name='sgRNA Data')
 cols= ['sgGFP','sgMDM4-1',	'sgMDM4-2']
 df = df[cols]
-print df.head()
+print(df.head())
 mean_impf = df.mean()
 sem_impf = df.std()
-print sem_impf
+print(sem_impf)
 yerr_pos = sem_impf.copy()
 
 # sns.barplot()

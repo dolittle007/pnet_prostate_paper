@@ -85,7 +85,7 @@ def get_attention_model_shared(p1_encoded_f, flate=True):
 
 
 def get_attention_model_not_shared(p1_encoded_f, flate=True):
-    print ('p1_encoded_f._keras_shape', p1_encoded_f._keras_shape)
+    print(('p1_encoded_f._keras_shape', p1_encoded_f._keras_shape))
     # weighted = Attention()(p1_encoded_f)
     weighted = AttLayer()(p1_encoded_f)
     return weighted
@@ -106,8 +106,8 @@ def get_interaction_model(p1_encoded_f, p2_encoded_f=None, flate=True):
     p1_encoded_f = check_shape(p1_encoded_f)
     p2_encoded_f = check_shape(p2_encoded_f)
 
-    print p1_encoded_f._keras_shape
-    print p2_encoded_f._keras_shape
+    print(p1_encoded_f._keras_shape)
+    print(p2_encoded_f._keras_shape)
 
     match = merge([p1_encoded_f, p2_encoded_f], mode='dot', dot_axes=[2, 2])
 
@@ -128,14 +128,14 @@ def get_interaction_model(p1_encoded_f, p2_encoded_f=None, flate=True):
 
 def apply_on_splits(model, p1_encoded_f, n_parts=2, name=''):
     # n_samples, max_len, input_dim = p1_encoded_f._keras_shape
-    print 'p1_encoded_f._keras_shape', p1_encoded_f._keras_shape
+    print('p1_encoded_f._keras_shape', p1_encoded_f._keras_shape)
     n_samples, max_len = p1_encoded_f._keras_shape
 
     step = max_len / n_parts
     xs1 = []
     for i in range(0, max_len, step):
         # part = i:i + step
-        print i
+        print(i)
         # split1 = Lambda(lambda x: x[:, i:i + step, :], output_shape=[max_len / n_parts, input_dim])
         split1 = Lambda(lambda x: x[:, i:i + step], output_shape=[max_len / n_parts])
         # split1 = Lambda(lambda x: x[:, :, i:i + step], output_shape=[max_len , axis /n_parts])

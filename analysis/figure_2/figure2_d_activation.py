@@ -45,11 +45,11 @@ def plot_high_genes_pairplot(df_in, y, name, saving_dir):
     dd["group"] = y
     dd['group'] = dd['group'].replace(0, '0-Primary')
     dd['group'] = dd['group'].replace(1, '1-Metastatic')
-    print dd.head()
+    print(dd.head())
     g = sns.pairplot(dd, hue="group")
 
     g.map(corrfunc)
-    print 'saving pairplot', filename
+    print('saving pairplot', filename)
     plt.savefig(filename)
     plt.savefig(filename + '.pdf')
     plt.close()
@@ -66,17 +66,17 @@ def corrfunc(x, y, **kws):
 if __name__=="__main__":
     node_activation = pd.read_csv('./extracted/node_importance_graph_adjusted.csv', index_col=0)
     response = pd.read_csv('./extracted/response.csv', index_col=0)
-    print node_activation.head()
-    print response.head()
+    print(node_activation.head())
+    print(response.head())
     # i=0
     for l in range(1, 7):
         df = pd.read_csv('./extracted/activation_{}.csv'.format(l), index_col=0)
         df.columns = get_pathway_names(df.columns)
-        print 'layer {} {}'.format(l, df.shape)
+        print('layer {} {}'.format(l, df.shape))
         high_nodes = node_activation[node_activation.layer == l].abs().nlargest(10, columns=['coef_combined'])
         high_nodes = high_nodes.sort_values('coef_combined', ascending=False)
         features = list(high_nodes.index)
-        print features
+        print(features)
         to_be_saved =  df[features].copy()
         plot_high_genes_violinplot(to_be_saved, response, name='l{}'.format(l), saving_dir='./visualizations/activation')
         to_be_saved =  to_be_saved[features[0:6]]

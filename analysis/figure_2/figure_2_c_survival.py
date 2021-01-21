@@ -44,7 +44,7 @@ def plot_(primary):
 
 
 def get_predictions(filename, correct_prediction = True):
-    print filename
+    print(filename)
     df  = pd.read_csv(filename, index_col= 0)
     if correct_prediction:
         df.pred = df.pred_scores>=0.5
@@ -64,7 +64,7 @@ def get_clinical():
 def plot_score_vs_pfs_time(filename, correct_prediction):
     clinical_df = get_clinical()
     df, correct, wrong = get_predictions(filename, correct_prediction=correct_prediction)
-    print df.shape, correct.shape, wrong.shape
+    print(df.shape, correct.shape, wrong.shape)
 
     def plot_data(dd, label):
         plt.figure()
@@ -94,7 +94,7 @@ def plot_score_vs_pfs_time(filename, correct_prediction):
 
     plot_data(df, label='all')
     saving_filename = join(dirname(filename), 'prediction_vs_pfs_time_all.png')
-    print saving_filename
+    print(saving_filename)
     plt.savefig(saving_filename)
     plot_data(correct, label='correct')
     saving_filename = join(dirname(filename), 'prediction_vs_pfs_time_correct.png')
@@ -255,7 +255,7 @@ def add_at_risk_counts_CUSTOM(*fitters, **kwargs):
             lbl += s.format(f.durations[f.durations >= tick].shape[0])
         ticklabels.append(lbl.strip())
     # Align labels to the right so numbers can be compared easily
-    print ticklabels
+    print(ticklabels)
     ax2.set_xticklabels(ticklabels, ha='right', fontsize=fontsize)
     ax2.set_yticks([])
 
@@ -316,14 +316,14 @@ def plot_surv(ax, filename, correct_prediction):
     # sns.set_context("paper", font_scale=1)
     clinical_df = get_clinical()
     df, correct, wrong = get_predictions(filename, correct_prediction)
-    print correct.shape, wrong.shape
+    print(correct.shape, wrong.shape)
     correct_full = clinical_df.merge(correct, how='inner', left_on='Patient.ID', right_index=True)
     wrong_full = clinical_df.merge(wrong, how='inner', left_on='Patient.ID', right_index=True)
 
     wrong_full = wrong_full.dropna(subset=['PFS.time', 'PFS'])
     correct_full = correct_full.dropna(subset=['PFS.time', 'PFS'])
-    print correct_full.shape
-    print wrong_full.shape
+    print(correct_full.shape)
+    print(wrong_full.shape)
 
     # fig = plt.figure(figsize=(8, 6))
     # ax = plt.subplot()
@@ -346,7 +346,7 @@ def plot_surv(ax, filename, correct_prediction):
     for x in ax.get_xticks():
         if x >= 0:
             newxticks += [x]
-        print newxticks
+        print(newxticks)
         ax.set_xticks(newxticks)
 
     # move_spines(ax, sides=[ 'bottom'], dists=[ 0.1])

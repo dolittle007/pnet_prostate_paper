@@ -41,8 +41,8 @@ def get_first_layer_df():
     genes_weights.columns = ['coef']
 
     nodes_per_layer_df = pd.concat([nodes_per_layer0, nodes_per_layer1])
-    print genes_weights.head()
-    print 'genes_weights', genes_weights
+    print(genes_weights.head())
+    print('genes_weights', genes_weights)
     # node_weights  =pd.read_csv(filename)
 
     node_weights = [features_weights, genes_weights]
@@ -71,7 +71,7 @@ def encode_nodes(df):
     target = df['target']
     all_node_labels = list(np.unique(np.concatenate([source, target])))
     n_nodes = len(all_node_labels)
-    df_encoded = df.replace(all_node_labels, range(n_nodes))
+    df_encoded = df.replace(all_node_labels, list(range(n_nodes)))
     return df_encoded, all_node_labels
 
 
@@ -93,9 +93,9 @@ def get_nodes_per_layer_filtered(nodes_per_layer_df, all_node_ids, all_node_labe
     nodes_per_layer_filtered_df = nodes_per_layer_df.join(all_node_ids_df, how='right')
     nodes_per_layer_filtered_df = nodes_per_layer_filtered_df.fillna(0)
     nodes_per_layer_filtered_df = nodes_per_layer_filtered_df.groupby(nodes_per_layer_filtered_df.index).min()
-    mapping_dict = dict(zip(all_node_ids, all_node_labels))
+    mapping_dict = dict(list(zip(all_node_ids, all_node_labels)))
     nodes_per_layer_filtered_df.index = nodes_per_layer_filtered_df.index.map(lambda x: mapping_dict[x])
-    mapping_dict = {y: x for x, y in all_node_labels.to_dict().iteritems()}
+    mapping_dict = {y: x for x, y in all_node_labels.to_dict().items()}
     nodes_per_layer_filtered_df.index = nodes_per_layer_filtered_df.index.map(lambda x: mapping_dict[x])
     return nodes_per_layer_filtered_df
 
@@ -175,8 +175,8 @@ def filter_nodes(node_importance, high_nodes,  add_others=True):
         names = ['others{}'.format(l) for l in layers]
         names = names + ['root']
         layers.append(np.max(layers) + 1)
-        print layers
-        print names
+        print(layers)
+        print(names)
         data = {'index': names, 'layer': layers}
         df = pd.DataFrame.from_dict(data)
         df = df.set_index('index')
@@ -238,7 +238,7 @@ def get_x_y(df_encoded, layers_nodes):
     # node weight is the max(sum of input edges, sum of output edges)
 
     def rescale(val, in_min, in_max, out_min, out_max):
-        print val, in_min, in_max, out_min, out_max
+        print(val, in_min, in_max, out_min, out_max)
         if in_min == in_max:
             return val
         return out_min + (val - in_min) * ((out_max - out_min) / (in_max - in_min))
@@ -261,11 +261,11 @@ def get_x_y(df_encoded, layers_nodes):
     ind = node_weights.index.str.contains('others')
 
     others_value = node_weights.loc[ind, 'value']
-    print 'others_value', others_value
+    print('others_value', others_value)
     node_weights.loc[ind, 'value'] = 0.
     node_weights.sort_values(by=['layer', 'value'], ascending=False, inplace=True)
     # maxx = node_weights.groupby('layer')['value'].transform(pd.Series.max)
-    print 'others_value', others_value
+    print('others_value', others_value)
     node_weights.loc[others_value.index, 'value'] = others_value
     n_layers = len(layers_nodes['layer'].unique())
     # node_weights['x'] = node_weights['layer'] /n_layers
@@ -277,7 +277,7 @@ def get_x_y(df_encoded, layers_nodes):
     ind = node_weights.layer==2
     node_weights.loc[ind,'x' ] = 0.16
     # node_weights['x'] = node_weights['layer']
-    print 'node_weights',node_weights
+    print('node_weights',node_weights)
     node_weights.to_csv('node_weights.csv')
     node_weights['layer_weight'] = node_weights.groupby('layer')['value'].transform(pd.Series.sum)
     node_weights['y'] = node_weights.groupby('layer')['value'].transform(pd.Series.cumsum)
@@ -317,7 +317,7 @@ def get_x_y(df_encoded, layers_nodes):
     # node_weights['y'] = (node_weights['y'] ) / node_weights['layer_weight']
 
 
-    print 'node_weights', node_weights['x'], node_weights['y']
+    print('node_weights', node_weights['x'], node_weights['y'])
     node_weights.sort_index(inplace=True)
     # ind = node_weights.index.str.contains('others')
     # node_weights.loc[ind, 'y'] = node_weights.loc[ind, 'y']+.5
@@ -495,12 +495,12 @@ def get_first_layer(node_weights, number_of_best_nodes, col_name='coef', include
         top_genes = list(gene_weights.nlargest(number_of_best_nodes, col_name).index)
 
     # gene normalization
-    print 'top_genes', top_genes
+    print('top_genes', top_genes)
     genes = gene_weights.loc[top_genes]
     genes[col_name] = np.log(1. + genes[col_name].abs())
 
-    print genes.shape
-    print genes.head()
+    print(genes.shape)
+    print(genes.head())
 
     df = feature_weights
 
@@ -515,8 +515,8 @@ def get_first_layer(node_weights, number_of_best_nodes, col_name='coef', include
         df = df.reset_index()
         df.columns = ['source', 'target', 'value']
 
-        print 'df groupby'
-        print df
+        print('df groupby')
+        print(df)
 
     else:
         df = feature_weights.loc[top_genes]
@@ -548,11 +548,11 @@ def get_first_layer(node_weights, number_of_best_nodes, col_name='coef', include
     # df = pd.merge(df, genes, left_on='target', right_index=True, how='inner')
     # genes
     df = pd.merge(df, genes, left_on='target', right_index=True, how='left')
-    print df.shape
+    print(df.shape)
     df.coef.fillna(10.0, inplace=True)
     df.value = df.value * df.coef*150.
 
-    print df.shape
+    print(df.shape)
 
     return df
 
@@ -563,7 +563,7 @@ def get_fromated_network(links, high_nodes_df, col_name, remove_others):
     # get node colors
     node_colors_dict = get_node_colors_ordered(high_nodes_df, col_name, remove_others)
 
-    print 'node_colors_dict', node_colors_dict
+    print('node_colors_dict', node_colors_dict)
     #exception for first layer
     node_colors_dict['amplification'] = (224, 123, 57, 0.7)  # amps
     node_colors_dict['deletion'] = (1, 55, 148, 0.7) # deletion
@@ -573,7 +573,7 @@ def get_fromated_network(links, high_nodes_df, col_name, remove_others):
     links['color'] = get_edge_colors(links, node_colors_dict, remove_others)
 
     # get node colors
-    for key, value in node_colors_dict.items():
+    for key, value in list(node_colors_dict.items()):
         node_colors_dict[key] = 'rgba{}'.format(tuple(value))
 
     # enocde nodes (convert node names into numbers)
@@ -635,10 +635,10 @@ def get_MDM4_nodes(links_df):
     tree = nx.bfs_tree(net, 'root')
 
     traces = list(nx.all_simple_paths(tree, 'root', 'MDM4'))
-    print len(traces)
+    print(len(traces))
     all_odes = []
     for t in traces:
-        print '-->'.join(t)
+        print('-->'.join(t))
         all_odes.extend(t)
 
     nodes = np.unique(all_odes)
@@ -649,8 +649,8 @@ def get_MDM4_nodes(links_df):
 
 #get reactome pathway ids and names
 reactome_pathway_df = get_reactome_pathway_names()
-id_to_name_dict = dict(zip(reactome_pathway_df.id,reactome_pathway_df.name))
-name_to_id_dict = dict(zip(reactome_pathway_df.name,reactome_pathway_df.id))
+id_to_name_dict = dict(list(zip(reactome_pathway_df.id,reactome_pathway_df.name)))
+name_to_id_dict = dict(list(zip(reactome_pathway_df.name,reactome_pathway_df.id)))
 
 
 # nlargest= [10, 8, 8, 8, 7, 6]
@@ -665,7 +665,7 @@ node_importance = pd.read_csv(join(module_path, './extracted/node_importance_gra
 
 node_id=[]
 for x in node_importance.index:
-    if x in name_to_id_dict.keys():
+    if x in list(name_to_id_dict.keys()):
         node_id.append(name_to_id_dict[x])
     else:
         node_id.append(x)
@@ -685,7 +685,7 @@ high_nodes_first_layer = get_high_nodes(first_layer_nodes, nlargest=nlargest, co
 high_nodes_pathways= get_high_nodes(other_layer_nodes, nlargest=nlargest, column='coef')
 # high_nodes_pathways= get_high_nodes(other_layer_nodes, nlargest=nlargest, column='coef_combined')
 high_nodes = high_nodes_first_layer+ high_nodes_pathways
-print 'high_nodes', high_nodes
+print('high_nodes', high_nodes)
 high_nodes_df = filter_nodes(node_importance, high_nodes)
 
 
@@ -700,12 +700,12 @@ MDM4
 mdm4_nodes = get_MDM4_nodes(links_df)
 mdm4_nodes_names =[]
 for n in mdm4_nodes:
-    if n in id_to_name_dict.keys():
+    if n in list(id_to_name_dict.keys()):
         mdm4_nodes_names.append(id_to_name_dict[n])
     else:
         mdm4_nodes_names.append(n)
 
-print 'mdm4_nodes', mdm4_nodes_names
+print('mdm4_nodes', mdm4_nodes_names)
 
 ind = links_df.source == links_df.target
 links_df= links_df[~ind]

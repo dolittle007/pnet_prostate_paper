@@ -26,7 +26,7 @@ ax1 = plt.subplot(gs[0])
 ax2 = plt.subplot(gs[1])
 ax3 = plt.subplot(gs[2])
 
-x= range(df.shape[0])
+x= list(range(df.shape[0]))
 
 ax1.plot(x,df['Z-LFC AVERAGE Enzalutimide'], '.')
 ax2.plot(x,df['Z-LFC AVERAGE Enzalutimide'], '.')
@@ -82,14 +82,14 @@ xy_dict= dict(TP53=(30,-4),
 direction=[-1, 1]*5
 x= [0, 30, -30, 0, ]
 y=[0, -2, +4, 0]
-print direction
+print(direction)
 for i, gene in enumerate(interesting):
     if gene in df.index:
-        print gene
+        print(gene)
         ind = df.index.str.contains(gene)
         x = list(ind).index(True)
         y= df['Z-LFC AVERAGE Enzalutimide'][x]
-        print gene, x, y
+        print(gene, x, y)
         # ax2.plot(x, y, 'r*')
         # ax2.text(x+170, y, gene, fontdict=dict( fontsize=8))
         xytext=(direction[i]*30,-2 )

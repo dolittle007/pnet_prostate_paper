@@ -13,17 +13,17 @@ from model.layers_custom import Diagonal, SparseTF
 
 
 def get_map_from_layer(layer_dict):
-    pathways = layer_dict.keys()
-    print 'pathways', len(pathways)
-    genes = list(itertools.chain.from_iterable(layer_dict.values()))
+    pathways = list(layer_dict.keys())
+    print('pathways', len(pathways))
+    genes = list(itertools.chain.from_iterable(list(layer_dict.values())))
     genes = list(np.unique(genes))
-    print 'genes', len(genes)
+    print('genes', len(genes))
 
     n_pathways = len(pathways)
     n_genes = len(genes)
 
     mat = np.zeros((n_pathways, n_genes))
-    for p, gs in layer_dict.items():
+    for p, gs in list(layer_dict.items()):
         g_inds = [genes.index(g) for g in gs]
         p_ind = pathways.index(p)
         mat[p_ind, g_inds] = 1
@@ -41,12 +41,12 @@ def get_layer_maps(genes, n_levels, direction, add_unk_genes):
     filtering_index = genes
     maps = []
     for i, layer in enumerate(reactome_layers[::-1]):
-        print 'layer #', i
+        print('layer #', i)
         mapp = get_map_from_layer(layer)
         filter_df = pd.DataFrame(index=filtering_index)
-        print 'filtered_map', filter_df.shape
+        print('filtered_map', filter_df.shape)
         filtered_map = filter_df.merge(mapp, right_index=True, left_index=True, how='left')
-        print 'filtered_map', filter_df.shape
+        print('filtered_map', filter_df.shape)
         # filtered_map = filter_df.merge(mapp, right_index=True, left_index=True, how='inner')
 
         # UNK, add a node for genes without known reactome annotation
@@ -58,7 +58,7 @@ def get_layer_maps(genes, n_levels, direction, add_unk_genes):
         ####
 
         filtered_map = filtered_map.fillna(0)
-        print 'filtered_map', filter_df.shape
+        print('filtered_map', filter_df.shape)
         # filtering_index = list(filtered_map.columns)
         filtering_index = filtered_map.columns
         logging.info('layer {} , # of edges  {}'.format(i, filtered_map.sum().sum()))
@@ -180,7 +180,7 @@ def get_pnet(inputs, features, genes, n_hidden_layers, direction, activation, ac
 
     if n_hidden_layers > 0:
         maps = get_layer_maps(genes, n_hidden_layers, direction, add_unk_genes)
-        layer_inds = range(1, len(maps))
+        layer_inds = list(range(1, len(maps)))
         # if adaptive_reg:
         #     w_regs = [float(w_reg)/float(i) for i in layer_inds]
         # else:
@@ -189,8 +189,8 @@ def get_pnet(inputs, features, genes, n_hidden_layers, direction, activation, ac
         #     dropouts = [float(dropout)/float(i) for i in layer_inds]
         # else:
         #     dropouts = [dropout]*len(maps)
-        print 'original dropout', dropout
-        print 'dropout', layer_inds, dropout, w_reg
+        print('original dropout', dropout)
+        print('dropout', layer_inds, dropout, w_reg)
         w_regs = w_reg[1:]
         w_reg_outcomes = w_reg_outcomes[1:]
         dropouts = dropout[1:]
@@ -207,7 +207,7 @@ def get_pnet(inputs, features, genes, n_hidden_layers, direction, activation, ac
             n_genes, n_pathways = mapp.shape
             logging.info('n_genes, n_pathways {} {} '.format(n_genes, n_pathways))
             # print 'map # ones {}'.format(np.sum(mapp))
-            print 'layer {}, dropout  {} w_reg {}'.format(i, dropout, w_reg)
+            print('layer {}, dropout  {} w_reg {}'.format(i, dropout, w_reg))
             if sparse:
                 hidden_layer = SparseTF(n_pathways, mapp, activation=activation, W_regularizer=reg_l(w_reg),
                                         name='h{}'.format(i + 1), kernel_initializer=kernel_initializer,

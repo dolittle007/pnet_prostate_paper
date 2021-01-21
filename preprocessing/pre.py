@@ -8,7 +8,7 @@ from sklearn import preprocessing as p
 
 
 def get_processor(args):
-    print args
+    print(args)
     proc_type = args['type']
     logging.info("Pre-processing: %s", proc_type)
     # params = args['params']
@@ -37,7 +37,7 @@ def get_processor(args):
         proc = tissue_specific()
     elif proc_type == 'smart':
         p1 = args['params']
-        print p1
+        print(p1)
         proc = get_processor(p1)
         proc = SmartPreprocesor(proc)
     elif proc_type == 'tfidf':
@@ -45,7 +45,7 @@ def get_processor(args):
 
         p1 = args['params']
         proc = TfidfTransformer(**p1)
-        print p1
+        print(p1)
 
     else:
         proc = None
@@ -66,8 +66,8 @@ def remove_outliers(y):
     # y2 = list(y)
     s = np.std(y)
     n = 4
-    print n
+    print(n)
     y2[y > m + n * s] = m + n * s
     y2[y < m - n * s] = m - n * s
-    print min(y2), max(y2), np.mean(y2)
+    print(min(y2), max(y2), np.mean(y2))
     return y2

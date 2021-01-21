@@ -27,7 +27,7 @@ custom_rcParams = {
 
 mpl.rcParams.update(custom_rcParams)
 sns.set_context('paper', rc=custom_rcParams)
-sns.set_style("white", {"grid.linestyle": u'--', "axes.grid": True, "grid.color":"0.9"})
+sns.set_style("white", {"grid.linestyle": '--', "axes.grid": True, "grid.color":"0.9"})
 
 
 def plot_box_plot(df, save_dir):
@@ -41,7 +41,7 @@ def plot_box_plot(df, save_dir):
 
 
     #     columns =[c.replace('_data_0','') for c in columns ]
-    print 'columns',columns
+    print('columns',columns)
     for c in columns:
         plt.figure(figsize=(7, 5))
         dd = df[c].copy()
@@ -117,11 +117,11 @@ base_dir = PROSTATE_LOG_PATH
 models_base_dir = join(base_dir ,'compare/crossvalidation_ML_test_Apr-11_12-17')
 
 df = pd.read_csv(join(models_base_dir, 'folds.csv'), sep=',', index_col=0, header=[0, 1])
-print df.head()
+print(df.head())
 
 pnet_base_dir = join(base_dir , 'pnet/crossvalidation_average_reg_10_tanh_Apr-11_13-20')
 pnet_df = pd.read_csv(join(pnet_base_dir, 'folds.csv'), sep=',', index_col=0, header=[0, 1])
-print pnet_df.head()
+print(pnet_df.head())
 
 df = pd.concat([pnet_df, df], axis=1)
 # fig = plt.figure(figsize=(8, 10))
@@ -144,7 +144,7 @@ current_palette = sns.color_palette(None, len(models))
 
 my_pal = {}
 for i, m in enumerate(models):
-    print current_palette[i]
+    print(current_palette[i])
     my_pal[m] = current_palette[i]
 
 mapping_dict_cols = {'Adaptive Boosting_data_0': 'Ada. Boosting',
@@ -157,11 +157,11 @@ mapping_dict_cols = {'Adaptive Boosting_data_0': 'Ada. Boosting',
 'Random Forest_data_0':'Random Forest',
                     }
 
-print df.columns.levels[0]
+print(df.columns.levels[0])
 df = df.drop('dense_data_0', axis=1, level=0)
 df = df.drop('Logistic Regression_ALL', axis=1, level=0)
 
-print df.columns
+print(df.columns)
 plot_box_plot(df, './output/')
 
 # plt.savefig('_auc', dpi=100)

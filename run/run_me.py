@@ -14,13 +14,14 @@ random_seed = 234
 random.seed(random_seed)
 np.random.seed(random_seed)
 
-tf.random.set_random_seed(random_seed)
+# tf.random.set_random_seed(random_seed)
+tf.random.set_seed(random_seed)
 import os
 import sys
 from os.path import join, dirname
 
 current_dir = dirname(os.path.realpath(__file__))
-print current_dir
+print(current_dir)
 
 sys.path.insert(0, dirname(current_dir))
 

@@ -163,7 +163,7 @@ def get_shap_scores_layer(model, X, layer_name, output_index=-1, method_name='de
     # ranked_outputs
     def map2layer(model, x, layer_name):
         fetch = model.get_layer(layer_name).output
-        feed_dict = dict(zip([model.layers[0].input], [x.copy()]))
+        feed_dict = dict(list(zip([model.layers[0].input], [x.copy()])))
         return K.get_session().run(fetch, feed_dict)
 
     import shap
@@ -182,7 +182,7 @@ def get_shap_scores_layer(model, X, layer_name, output_index=-1, method_name='de
     else:
         raise ('unsppuorted method')
 
-    print (shap_values[0].shape)
+    print((shap_values[0].shape))
     return shap_values[0]
 
 
@@ -199,7 +199,7 @@ def get_shap_scores(model, X_train, y_train, target=-1, method_name='deepexplain
                 output = i
             else:
                 output = target
-            print 'layer # {}, layer name {},  output name {}'.format(i, l.name, output)
+            print('layer # {}, layer name {},  output name {}'.format(i, l.name, output))
             i += 1
             # gradients = get_deep_explain_score_layer(model, X_train, l.name, output, method_name= method_name )
             gradients = get_shap_scores_layer(model, X_train, l.name, output, method_name=method_name)
@@ -232,18 +232,18 @@ def get_deep_explain_scores(model, X_train, y_train, target=-1, method_name='gra
             else:
                 output = target
 
-            print 'layer # {}, layer name {},  output name {}'.format(i, l.name, output)
+            print('layer # {}, layer name {},  output name {}'.format(i, l.name, output))
             i += 1
             gradients = get_deep_explain_score_layer(model, X_train, l.name, output, method_name=method_name)
             if gradients.ndim > 1:
                 # feature_weights = np.sum(np.abs(gradients), axis=-2)
                 # feature_weights = np.sum(gradients, axis=-2)
-                print 'gradients.shape', gradients.shape
+                print('gradients.shape', gradients.shape)
                 # feature_weights = np.abs(np.sum(gradients, axis=-2))
                 feature_weights = np.sum(gradients, axis=-2)
                 # feature_weights = np.mean(gradients, axis=-2)
-                print 'feature_weights.shape', feature_weights.shape
-                print 'feature_weights min max', min(feature_weights), max(feature_weights)
+                print('feature_weights.shape', feature_weights.shape)
+                print('feature_weights min max', min(feature_weights), max(feature_weights))
             else:
                 # feature_weights = np.abs(gradients)
                 feature_weights = gradients
@@ -263,12 +263,13 @@ def get_deep_explain_score_layer(model, X, layer_name, output_index=-1, method_n
     from deepexplain.tensorflow_ import DeepExplain
     import tensorflow as tf
     ww = model.get_weights()
-    with tf.Session() as sess:
+    # with tf.Session() as sess:
+    with tf.compat.v1.Session() as sess:
         try:
             with DeepExplain(session=sess) as de:  # <-- init DeepExplain context
                 # Need to reconstruct the graph in DeepExplain context, using the same weights.
                 # model= nn_model.model
-                print layer_name
+                print(layer_name)
                 model = keras.models.clone_model(model)
                 model.set_weights(ww)
                 # if layer_name=='inputs':
@@ -285,17 +286,17 @@ def get_deep_explain_score_layer(model, X, layer_name, output_index=-1, method_n
 
                 # y = model.get_layer('o6').output
                 # x = model.inputs[0]
-                print layer_name
-                print 'model.inputs', model.inputs
-                print 'model y', y
-                print 'model x', x
+                print(layer_name)
+                print('model.inputs', model.inputs)
+                print('model y', y)
+                print('model x', x)
                 attributions = de.explain(method_name, y, x, model.inputs[0], X)
-                print 'attributions', attributions.shape
+                print('attributions', attributions.shape)
                 scores = attributions
                 return scores
         except:
             sess.close()
-            print("Unexpected error:", sys.exc_info()[0])
+            print(("Unexpected error:", sys.exc_info()[0]))
             raise
 
 
@@ -310,7 +311,7 @@ def get_skf_weights(model, X, y, importance_type):
             layer_out = X
         elif l.name.startswith('h'):
             out = l.output
-            print i, l, out
+            print(i, l, out)
             func = K.function([inp] + [K.learning_phase()], [out])
             layer_out = func([X, 0.])[0]
         else:
@@ -366,8 +367,8 @@ def get_gradient_weights_with_repeated_output(model, X, y):
 
         # print 'get the gradient of layer {}'.format(l.name)
         if l.name.startswith('o') and not l.name.startswith('o_'):
-            print l.name
-            print l.weights
+            print(l.name)
+            print(l.weights)
             weights = l.get_weights()[0]
             # weights = l.get_weights()
             # print 'weights shape {}'.format(weights.shape)
@@ -385,12 +386,12 @@ def get_weights_linear_model(model, X, y):
     for i, l in enumerate(layers):
         if type(l) in [Sequential, Dropout]:
             continue
-        print  type(l)
+        print(type(l))
         if type(l) == InputLayer:
             layer_out = X
         else:
             out = l.output
-            print i, l, out
+            print(i, l, out)
             func = K.function([inp] + [K.learning_phase()], [out])
             layer_out = func([X, 0.])[0]
         # print layer_out.shape
@@ -463,7 +464,7 @@ def get_gradeint(model, x, y, x_train, y_train, multiply_by_input=False):
 
 def get_weights_gradient_outcome(model, x_train, y_train, detailed=False, target=-1, multiply_by_input=False,
                                  signed=True):
-    print model.output
+    print(model.output)
     layers = get_layers(model)
     gradients_list = []
     gradients_list_sample_level = []
@@ -479,19 +480,19 @@ def get_weights_gradient_outcome(model, x_train, y_train, detailed=False, target
                 else:
                     output = model.outputs[target]
 
-            print 'layer # {}, layer name {},  output name {}'.format(i, l.name, output.name)
+            print('layer # {}, layer name {},  output name {}'.format(i, l.name, output.name))
             i += 1
-            print i, l.name, output.name, output, l.get_output_at(0)
+            print(i, l.name, output.name, output, l.get_output_at(0))
             gradients = get_gradeint(model, l.output, output, x_train, y_train, multiply_by_input=multiply_by_input)
 
-            print 'gradients', len(gradients), gradients[0].shape
+            print('gradients', len(gradients), gradients[0].shape)
             if signed:
                 g = np.sum(gradients[0], axis=0)
             else:
                 g = np.sum(np.abs(gradients[0]), axis=0)
             # g = np.abs(g)
             gradients_list_sample_level.append(gradients[0])
-            print 'gradients', gradients[0].shape
+            print('gradients', gradients[0].shape)
             gradients_list.append(g)
 
     if detailed:
@@ -545,7 +546,7 @@ def get_permutation_weights(model, X, y):
     x_original = X.copy()
     for i in range(X.shape[1]):
         # if (i%100)==0:
-        print i
+        print(i)
         # x = X.copy()
         x_vector = x_original[:, i]
         # np.random.shuffle(x[:, i])

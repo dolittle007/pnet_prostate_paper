@@ -124,9 +124,9 @@ def plot_(df_pnet, df_dense):
     pvalues = get_stats(df_pnet, df_dense)
 
 
-    print l
-    print zip(sizes,ratio)
-    print zip(sizes,pvalues)
+    print(l)
+    print(list(zip(sizes,ratio)))
+    print(list(zip(sizes,pvalues)))
 
 
     bar_width= 25
@@ -169,7 +169,7 @@ sizes = []
 for i in range(0,20,3):
     df_split = pd.read_csv(join(PROSTATE_DATA_PATH, 'splits/training_set_{}.csv'   .format(i)), index_col =0)
     sizes.append(df_split.shape[0])
-print sizes
+print(sizes)
 
 # pnet_ = get_pnet_preformance('f1')
 # print pnet_
@@ -186,7 +186,7 @@ print sizes
 # # col = 'f1'
 
 def get_stats(df_pnet, df_dense):
-    print df_pnet.shape, df_dense.shape
+    print(df_pnet.shape, df_dense.shape)
     pvalues = []
     for c1, c2 in zip(df_pnet.columns, df_dense.columns):
         # print c
@@ -195,7 +195,7 @@ def get_stats(df_pnet, df_dense):
 
         twosample_results = stats.ttest_ind(x, y)
         pvalue = twosample_results[1]/2
-        print pvalue
+        print(pvalue)
         pvalues.append(pvalue)
     return pvalues
 
@@ -233,8 +233,8 @@ def plot_pnet_vs_dense_with_ratio(ax, c, label, plot_ratio=False):
 
     y1 = df_pnet.mean()
     y2 = df_dense_sameweights.mean()
-    height = map(max, zip(y1, y2))
-    print 'height', height
+    height = list(map(max, list(zip(y1, y2))))
+    print('height', height)
     updated_values=[]
     for i, (p, s) in enumerate(zip(pvalues, sizes)):
         # height = .005 + ratio[i]
@@ -259,7 +259,7 @@ def plot_pnet_vs_dense_with_ratio(ax, c, label, plot_ratio=False):
 
     ax.xaxis.set_major_formatter(NullFormatter())
     ax.xaxis.set_minor_formatter(NullFormatter())
-    ax.tick_params(axis=u'x', which=u'both', length=0)
+    ax.tick_params(axis='x', which='both', length=0)
     # xticks = ax.xaxis.get_major_ticks()
     # xticks[1].label1.set_visible(False)
     # xticks[-2].label1.set_visible(False)
@@ -333,8 +333,8 @@ def plot_pnet_vs_dense_ratio(ax2, c = 'auc'):
 
     ratio = (y1.values - y2.values) / y2.values
     pvalues = get_stats(df_pnet, df_dense)
-    print zip(sizes, ratio)
-    print zip(sizes, pvalues)
+    print(list(zip(sizes, ratio)))
+    print(list(zip(sizes, pvalues)))
 
     bar_width = 30
     fontsize = 10

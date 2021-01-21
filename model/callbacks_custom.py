@@ -123,11 +123,11 @@ class FixedEarlyStopping(Callback):
             self.stopped_epoch = epoch
             self.model.stop_training = True
 
-        print(self.waits)
+        print((self.waits))
 
     def on_train_end(self, logs=None):
         if self.stopped_epoch > 0 and self.verbose > 0:
-            print('Epoch %05d: early stopping' % (self.stopped_epoch + 1))
+            print(('Epoch %05d: early stopping' % (self.stopped_epoch + 1)))
 
 
 class GradientCheckpoint(Callback):
@@ -206,7 +206,7 @@ class GradientCheckpoint(Callback):
         self.epochs_since_last_save += 1
         is_last_epoch = (self.max_epoch - epoch - 1) < self.period
         # is_last_epoch = self.max_epoch == epoch
-        print('is_last_epoch', is_last_epoch)
+        print(('is_last_epoch', is_last_epoch))
         if (self.epochs_since_last_save >= self.period) or (epoch == 0):
             self.epochs_since_last_save = 0
             logging.info('getting gradient')
@@ -222,8 +222,8 @@ class GradientCheckpoint(Callback):
 
             for c, names in zip(coef_, self.feature_names):
                 print(i)
-                print(c.shape)
-                print(len(names))
+                print((c.shape))
+                print((len(names)))
                 df = pd.DataFrame(c.ravel(), index=names, columns=[str(epoch)])
                 self.history[i].append(df)
                 # logging.info('saving gradient epoch {} layer {}'.format(epoch, i))

@@ -1,7 +1,7 @@
 import os
 from os.path import join, basename, dirname, expanduser
 import pandas as pd
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 processed_dir = 'processed'
 data_dir = 'raw_data'
@@ -31,10 +31,10 @@ def download_data():
         os.makedirs(data_dir)
 
     for link in links:
-        print ('downloading file {}'.format( link))
+        print(('downloading file {}'.format( link)))
         filename=join(data_dir,basename(link))
         with open(filename, 'wb') as f:
-            f.write(urllib2.urlopen(link).read())
+            f.write(urllib.request.urlopen(link).read())
             f.close()
 
 

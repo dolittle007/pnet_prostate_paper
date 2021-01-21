@@ -2,7 +2,7 @@ import os
 import ssl
 from os.path import join, basename, dirname, expanduser, exists
 import pandas as pd
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 from config_path import GENE_PATH
 current_dir = dirname(__file__)
 
@@ -43,11 +43,11 @@ def prepare_Met500_mut():
         os.makedirs(saving_dir)
 
     protein_genes = get_protein_encoding_genes()
-    print 'protein_genes', len(protein_genes)
+    print('protein_genes', len(protein_genes))
     mut = get_design_matrix_mutation(saving_dir)
     genes= set( mut.columns.values)
     common_genes = protein_genes.intersection(genes)
-    print 'number of genes {}, number of common genes {} '.format( len(genes),len(common_genes))
+    print('number of genes {}, number of common genes {} '.format( len(genes),len(common_genes)))
 
     #saving mutation matrix
     mut.to_csv(join(saving_dir, 'Met500_mut_matrix.csv'))
@@ -59,10 +59,10 @@ def prepare_Met500_cnv():
     # cnv_genes= pd.read_csv(join(data_dir,'met500_cnv_unique_genes.txt'), header=None)
     cnv_genes= pd.read_csv(join(saving_dir,'Met500_cnv.txt'), header=0, index_col=0, sep='\t')
     # cnv_genes.columns = ['genes']
-    print cnv_genes.head()
+    print(cnv_genes.head())
     genes= set(cnv_genes.index)
     common_genes = protein_genes.intersection(genes)
-    print 'number of cnv genes {} number of encoding genes {} number of comon genes {} '.format( len(genes), len(protein_genes),len(common_genes))
+    print('number of cnv genes {} number of encoding genes {} number of comon genes {} '.format( len(genes), len(protein_genes),len(common_genes)))
 
 def prepare_PRAD():
     saving_dir = join(data_dir, 'PRAD')
@@ -85,7 +85,7 @@ def prepare_PRAD():
     mut_df = pd.read_csv(join(saving_dir, mut_filename), sep='\t')
 
     CPCG_cols = [c for c in mut_df.columns.values if c.startswith('CPCG')]
-    print len(CPCG_cols)
+    print(len(CPCG_cols))
 
     exclude = ['upstream', 'downstream', 'intergenic']  # 'intronic', 'ncRNA_intronic'
     cpcg_mutations = mut_df.loc[~mut_df.Location.isin(exclude), ['Gene'] + CPCG_cols]

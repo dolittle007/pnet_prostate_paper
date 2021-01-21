@@ -19,14 +19,14 @@ from model.model_utils import print_model, get_layers
 def build_pnet(optimizer, w_reg, add_unk_genes=True, sparse=True, dropout=0.5, use_bias=False, activation='tanh',
                loss='binary_crossentropy', data_params=None, n_hidden_layers=1, direction='root_to_leaf',
                batch_normal=False, kernel_initializer='glorot_uniform', shuffle_genes=False, reg_outcomes=False):
-    print data_params
-    print 'n_hidden_layers', n_hidden_layers
+    print(data_params)
+    print('n_hidden_layers', n_hidden_layers)
     data = Data(**data_params)
     x, y, info, cols = data.get_data()
-    print x.shape
-    print y.shape
-    print info.shape
-    print cols.shape
+    print(x.shape)
+    print(y.shape)
+    print(info.shape)
+    print(cols.shape)
     # features = cols.tolist()
     features = cols
     if loss == 'binary_crossentropy':
@@ -98,19 +98,19 @@ def build_pnet(optimizer, w_reg, add_unk_genes=True, sparse=True, dropout=0.5, u
 
     # n_outputs = n_hidden_layers + 2
     n_outputs = len(decision_outcomes)
-    loss_weights = range(1, n_outputs + 1)
+    loss_weights = list(range(1, n_outputs + 1))
     # loss_weights = [l*l for l in loss_weights]
     loss_weights = [np.exp(l) for l in loss_weights]
     # loss_weights = [l*np.exp(l) for l in loss_weights]
     # loss_weights=1
-    print 'loss_weights', loss_weights
+    print('loss_weights', loss_weights)
     model.compile(optimizer=optimizer,
                   loss=['binary_crossentropy'] * n_outputs, metrics=[f1], loss_weights=loss_weights)
     # loss=['binary_crossentropy']*(n_hidden_layers +2))
     logging.info('done compiling')
 
     print_model(model)
-    print get_layers(model)
+    print(get_layers(model))
     logging.info(model.summary())
     logging.info('# of trainable params of the model is %s' % model.count_params())
     return model, feature_names
@@ -121,14 +121,14 @@ def build_pnet2(optimizer, w_reg, w_reg_outcomes, add_unk_genes=True, sparse=Tru
                 use_bias=False, activation='tanh', loss='binary_crossentropy', data_params=None, n_hidden_layers=1,
                 direction='root_to_leaf', batch_normal=False, kernel_initializer='glorot_uniform', shuffle_genes=False,
                 attention=False, dropout_testing=False, non_neg=False, repeated_outcomes=True, sparse_first_layer=True):
-    print data_params
-    print 'n_hidden_layers', n_hidden_layers
+    print(data_params)
+    print('n_hidden_layers', n_hidden_layers)
     data = Data(**data_params)
     x, y, info, cols = data.get_data()
-    print x.shape
-    print y.shape
-    print info.shape
-    print cols.shape
+    print(x.shape)
+    print(y.shape)
+    print(info.shape)
+    print(cols.shape)
     # features = cols.tolist()
     features = cols
     if loss == 'binary_crossentropy':
@@ -217,7 +217,7 @@ def build_pnet2(optimizer, w_reg, w_reg_outcomes, add_unk_genes=True, sparse=Tru
         loss_weights = [loss_weights] * n_outputs
     # loss_weights=[1.]*
     # loss_weights=1
-    print 'loss_weights', loss_weights
+    print('loss_weights', loss_weights)
     # optimizer = Adam(lr=0.0001)
     model.compile(optimizer=optimizer,
                   loss=['binary_crossentropy'] * n_outputs, metrics=[f1], loss_weights=loss_weights)
@@ -225,21 +225,21 @@ def build_pnet2(optimizer, w_reg, w_reg_outcomes, add_unk_genes=True, sparse=Tru
     logging.info('done compiling')
 
     print_model(model)
-    print get_layers(model)
+    print(get_layers(model))
     logging.info(model.summary())
     logging.info('# of trainable params of the model is %s' % model.count_params())
     return model, feature_names
 
 
 def build_dense(optimizer, n_weights, w_reg, activation='tanh', loss='binary_crossentropy', data_params=None):
-    print data_params
+    print(data_params)
 
     data = Data(**data_params)
     x, y, info, cols = data.get_data()
-    print x.shape
-    print y.shape
-    print info.shape
-    print cols.shape
+    print(x.shape)
+    print(y.shape)
+    print(info.shape)
+    print(cols.shape)
     # features = cols.tolist()
     features = cols
     if loss == 'binary_crossentropy':
@@ -256,7 +256,7 @@ def build_dense(optimizer, n_weights, w_reg, activation='tanh', loss='binary_cro
 
     ins = Input(shape=(n_features,), dtype='float32', name='inputs')
     n = np.ceil(float(n_weights) / float(n_features))
-    print n
+    print(n)
     layer1 = Dense(units=int(n), activation=activation, W_regularizer=l2(w_reg), name='h0')
     outcome = layer1(ins)
     outcome = Dense(1, activation=activation_decision, name='output')(outcome)
@@ -268,7 +268,7 @@ def build_dense(optimizer, n_weights, w_reg, activation='tanh', loss='binary_cro
     logging.info('done compiling')
 
     print_model(model)
-    print get_layers(model)
+    print(get_layers(model))
     logging.info(model.summary())
     logging.info('# of trainable params of the model is %s' % model.count_params())
     return model, feature_names

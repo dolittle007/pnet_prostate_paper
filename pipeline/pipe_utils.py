@@ -23,7 +23,7 @@ def save_coef(fs_model_list, columns, directory, relevant_features):
         genes_list = columns
 
     for model, model_params in fs_model_list:
-        print model_params
+        print(model_params)
 
         model_name = get_model_id(model_params)
 
@@ -33,7 +33,7 @@ def save_coef(fs_model_list, columns, directory, relevant_features):
         model_name_col = model_name
 
         if hasattr(model, 'get_named_coef'):
-            print 'save_feature_importance'
+            print('save_feature_importance')
             file_name = join(dir_name, 'coef_' + model_name)
             coef = model.get_named_coef()
             if type(coef) == list:
@@ -154,7 +154,7 @@ def get_coef_from_model(model):
 
     if hasattr(model, 'scores_'):
         coef = model.scores_
-        print len(coef)
+        print(len(coef))
 
     if hasattr(model, 'feature_importances_'):
         coef = np.abs(model.feature_importances_)
@@ -163,22 +163,22 @@ def get_coef_from_model(model):
 
 # get balanced x and y where the size of postivie samples equal the number of negative samples
 def get_balanced(x, y, info):
-    print type(x), type(y), type(info)
+    print(type(x), type(y), type(info))
     pos_ind = np.where(y == 1.)[0]
     neg_ind = np.where(y == 0.)[0]
     n_pos = pos_ind.shape[0]
     n_neg = neg_ind.shape[0]
     n = min(n_pos, n_neg)
     # if debug_:
-    print 'n_pos {} n_nge {} n {}'.format(n_pos, n_neg, n)
+    print('n_pos {} n_nge {} n {}'.format(n_pos, n_neg, n))
     # pos_ind = pos_ind[:n]
     # neg_ind = neg_ind[:n]
 
     pos_ind = np.random.choice(pos_ind, size=n, replace=False)
     neg_ind = np.random.choice(neg_ind, size=n, replace=False)
 
-    print 'pos_ind', pos_ind
-    print 'neg_ind', neg_ind
+    print('pos_ind', pos_ind)
+    print('neg_ind', neg_ind)
     ind = np.concatenate([pos_ind, neg_ind])
     y = y[ind]
     x = x[ind, :]

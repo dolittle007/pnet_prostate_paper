@@ -19,7 +19,7 @@ def prepare_design_matrix_crosstable():
     id_col = 'Tumor_Sample_Barcode'
     df = pd.read_csv(join(data_dir, filename), sep='\t', low_memory=False, skiprows=1)
     print ('mutation distribution')
-    print df['Variant_Classification'].value_counts()
+    print(df['Variant_Classification'].value_counts())
 
     if filter_silent_muts:
         df = df[df['Variant_Classification'] != 'Silent'].copy()
@@ -42,7 +42,7 @@ def prepare_design_matrix_crosstable():
     total_numb_mutations = df_table.sum().sum()
 
     number_samples = df_table.shape[0]
-    print 'number of mutations', total_numb_mutations, total_numb_mutations / (number_samples + 0.0)
+    print('number of mutations', total_numb_mutations, total_numb_mutations / (number_samples + 0.0))
     filename = join(processed_dir, 'P1000_final_analysis_set_cross_' + ext + '.csv')
     df_table.to_csv(filename)
 

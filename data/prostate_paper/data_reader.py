@@ -319,7 +319,7 @@ class ProstateDataPaper():
         if TMB:
             x_tmb, y_tmb, rows_tmb, cols_tmb = load_data_type('TMB', cnv_levels, cnv_filter_single_event, mut_binary,
                                                               selected_genes)
-            print type(x), type(x_tmb)
+            print(type(x), type(x_tmb))
             x_df = pd.DataFrame(x, index=rows, columns=cols)
             n = len(data_type)
             columns = [('TMB1', 'TMB2')] * n

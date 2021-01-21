@@ -13,7 +13,7 @@ filename = 'study_view_clinical_data.txt'
 
 df= pd.read_csv(join(base_dir, filename), sep='\t')
 df['type']= df['Sample Type'] == 'Metastasis'
-print df.head()
+print(df.head())
 
 df_mets= df[df['type']]
 df_primary = df[~df['type']]
