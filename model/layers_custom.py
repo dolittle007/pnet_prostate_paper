@@ -154,8 +154,9 @@ class Diagonal(Layer):
         super(Diagonal, self).build(input_shape)  # Be sure to call this somewhere!
 
     def call(self, x, mask=None):
-        n_features = x._keras_shape[1]
-        print('input dimensions {}'.format(x._keras_shape))
+        # n_features = x._keras_shape[1]
+        n_features = x.shape[1]
+        # print('input dimensions {}'.format(x._keras_shape))
 
         kernel = K.reshape(self.kernel, (1, n_features))
         mult = x * kernel
@@ -399,9 +400,10 @@ class SpraseLayerTF(Layer):
 
     def call(self, x, mask=None):
 
-        n_features = x._keras_shape[1]
+        # n_features = x._keras_shape[1]
+        n_features = x.shape[1]
 
-        print('input dimensions {}'.format(x._keras_shape))
+        # print('input dimensions {}'.format(x._keras_shape))
         kernel = K.reshape(self.kernel, (1, n_features))
 
         mult = x * kernel

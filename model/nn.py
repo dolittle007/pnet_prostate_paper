@@ -234,7 +234,7 @@ class Model(BaseEstimator):
         history = self.model.fit(X_train, y_train, validation_data=validation_data, epochs=self.nb_epoch,
                                  batch_size=self.batch_size,
                                  verbose=self.verbose, callbacks=callbacks,
-                                 shuffle=self.shuffle, class_weight=class_weights)
+                                 shuffle=self.shuffle, class_weight=[class_weights]*self.n_outputs)
         plot_history(history.history, self.save_filename + '_validation')
 
         hist_df = pd.DataFrame(history.history)

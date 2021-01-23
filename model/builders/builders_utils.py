@@ -145,8 +145,8 @@ def get_pnet(inputs, features, genes, n_hidden_layers, direction, activation, ac
 
     # if reg_outcomes:
     # decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(0), W_regularizer=reg_l(w_reg_outcome0), **constraints)(inputs)
-    decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(0), W_regularizer=reg_l(w_reg_outcome0))(
-        inputs)
+    # decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(0), W_regularizer=reg_l(w_reg_outcome0))(inputs)
+    decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(0), kernel_regularizer=reg_l(w_reg_outcome0))(inputs)
     # else:
     #     decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(0))(inputs)
 
@@ -161,8 +161,8 @@ def get_pnet(inputs, features, genes, n_hidden_layers, direction, activation, ac
 
     # if reg_outcomes:
     # decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(1), W_regularizer=reg_l(w_reg_outcome1/2.), **constraints)(outcome)
-    decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(1),
-                             W_regularizer=reg_l(w_reg_outcome1 / 2.))(outcome)
+    # decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(1), W_regularizer=reg_l(w_reg_outcome1 / 2.))(outcome)
+    decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(1), kernel_regularizer=reg_l(w_reg_outcome1 / 2.))(outcome)
     # else:
     #     decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(1))(outcome)
 
@@ -226,8 +226,8 @@ def get_pnet(inputs, features, genes, n_hidden_layers, direction, activation, ac
             # if reg_outcomes:
             # decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(i + 2), W_regularizer=reg_l( w_reg2/(2**i)))(outcome)
             # decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(i + 2), W_regularizer=reg_l( w_reg_outcome), **constraints)(outcome)
-            decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(i + 2),
-                                     W_regularizer=reg_l(w_reg_outcome))(outcome)
+            # decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(i + 2), W_regularizer=reg_l(w_reg_outcome))(outcome)
+            decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(i + 2), kernel_regularizer=reg_l(w_reg_outcome))(outcome)
             # else:
             #     decision_outcome = Dense(1, activation='linear', name='o_linear{}'.format(i + 2))(outcome)
             # testing

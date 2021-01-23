@@ -199,7 +199,8 @@ def build_pnet2(optimizer, w_reg, w_reg_outcomes, add_unk_genes=True, sparse=Tru
     else:
         outcome = decision_outcomes[-1]
 
-    model = Model(input=[ins], output=outcome)
+    # model = Model(input=[ins], output=outcome)
+    model = Model([ins], outcome)
 
     # n_outputs = n_hidden_layers + 2
     if type(outcome) == list:
