@@ -9,6 +9,9 @@ import matplotlib as mpl
 import itertools
 from sklearn.metrics import confusion_matrix
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from os.path import join, dirname
+import os
+current_dir = dirname(os.path.realpath(__file__))
 
 # set default params
 from config_path import PROSTATE_LOG_PATH
@@ -113,14 +116,12 @@ def plot_confusion_matrix(ax, cm, classes, labels=None,
     # ax.set_xticks([], minor=True)
     # ax.set_yticks([], minor=True)
 
-
-
-
 #                     cmap = plt.cm.Greys)
 
 def plot_confusion_matrix_all(ax):
     base_dir = join(PROSTATE_LOG_PATH, 'pnet')
-    models_base_dir = join(base_dir, 'onsplit_average_reg_10_tanh_large_testing_Apr-11_11-22')
+    # models_base_dir = join(base_dir, 'onsplit_average_reg_10_tanh_large_testing_Apr-11_11-22')
+    models_base_dir = join(base_dir, 'onsplit_average_reg_10_tanh_large_testing')
     filename = join(models_base_dir, 'P-net_ALL_testing.csv')
     df = pd.read_csv(filename, index_col=0)
     df.pred = df.pred_scores > 0.5
@@ -145,5 +146,5 @@ def plot_confusion_matrix_all(ax):
 if __name__=='__main__':
     fig, ax = plt.subplots(nrows=1, ncols=1, sharey=True, figsize=(5,4), dpi=400)
     plot_confusion_matrix_all(ax)
-    plt.savefig('./output/confusion matrix.png', dpi=400)
+    plt.savefig(join(current_dir,'./output/confusion matrix.png'), dpi=400)
 

@@ -1,7 +1,5 @@
 from copy import deepcopy
 import numpy as np
-
-
 from model.builders.prostate_models import build_pnet2
 
 task = 'classification_binary'
@@ -28,8 +26,8 @@ for n in splits:
     d['params']['training_split'] = str(n)
     data.append(d)
 
-for d in data:
-    print d['id']
+# for d in data:
+#     print d['id']
 
 
 n_hidden_layers = 5

@@ -1,13 +1,11 @@
 import os
 from copy import deepcopy
 from os.path import dirname
-
 import numpy as np
-
 from model.builders.prostate_models import build_dense
 
 base_dirname = dirname(dirname(__file__))
-print base_dirname
+print (base_dirname)
 filename = os.path.basename(__file__)
 task = 'classification_binary'
 #need to stired under 'data/genes'
@@ -29,7 +27,7 @@ data_base = {'id': 'ALL', 'type': 'prostate_paper',
 data = []
 
 splits = np.arange(0, 20, 3)
-print splits
+print (splits)
 for n in splits:
     d = deepcopy(data_base)
     d['id'] = 'data_{}'.format(n)
@@ -52,7 +50,6 @@ nn_pathway_dense = {
                 'optimizer': 'Adam',
                 'activation': 'selu',
                 'data_params': data_base,
-
             }, 'fitting_params': dict(samples_per_epoch=10,
                                       select_best_model=False,
                                       monitor='val_f1',
