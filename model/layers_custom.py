@@ -98,7 +98,7 @@ class Diagonal(Layer):
                  use_bias=True,
                  kernel_initializer='glorot_uniform',
                  bias_initializer='zeros',
-                 W_regularizer=None,
+                 kernel_regularizer=None,
                  bias_regularizer=None,
                  kernel_constraint=None,
                  bias_constraint=None,
@@ -111,9 +111,9 @@ class Diagonal(Layer):
         self.use_bias = use_bias
         self.bias_initializer = initializers.get(bias_initializer)
         self.kernel_initializer = initializers.get(kernel_initializer)
-        self.W_regularizer = W_regularizer
+#         self.W_regularizer = W_regularizer
         self.bias_regularizer = bias_regularizer
-        self.kernel_regularizer = regularizers.get(W_regularizer)
+        self.kernel_regularizer = regularizers.get(kernel_regularizer)
         self.bias_regularizer = regularizers.get(bias_regularizer)
         self.kernel_constraint = constraints.get(kernel_constraint)
         self.bias_constraint = bias_constraint
@@ -124,9 +124,9 @@ class Diagonal(Layer):
         # Create a trainable weight variable for this layer.
         input_dimension = input_shape[1]
         self.kernel_shape = (input_dimension, self.units)
-        print('input dimension {} self.units {}'.format(input_dimension, self.units))
+#         print('input dimension {} self.units {}'.format(input_dimension, self.units))
         self.n_inputs_per_node = input_dimension / self.units
-        print('n_inputs_per_node {}'.format(self.n_inputs_per_node))
+#         print('n_inputs_per_node {}'.format(self.n_inputs_per_node))
 
         rows = np.arange(input_dimension)
         cols = np.arange(self.units)
@@ -134,7 +134,7 @@ class Diagonal(Layer):
         self.nonzero_ind = np.column_stack((rows, cols))
 
         # print 'self.nonzero_ind', self.nonzero_ind
-        print('self.kernel_initializer', self.W_regularizer, self.kernel_initializer, self.kernel_regularizer)
+#         print('self.kernel_initializer', self.W_regularizer, self.kernel_initializer, self.kernel_regularizer)
         self.kernel = self.add_weight(name='kernel',
                                       shape=(input_dimension,),
                                       # initializer='uniform',
@@ -202,7 +202,7 @@ import tensorflow as tf
 
 
 class SparseTF(Layer):
-    def __init__(self, units, map=None, nonzero_ind=None, kernel_initializer='glorot_uniform', W_regularizer=None,
+    def __init__(self, units, map=None, nonzero_ind=None, kernel_initializer='glorot_uniform', kernel_regularizer=None,
                  activation='tanh', use_bias=True,
                  bias_initializer='zeros', bias_regularizer=None, kernel_constraint=None, bias_constraint=None,
                  **kwargs):
@@ -212,7 +212,7 @@ class SparseTF(Layer):
         self.nonzero_ind = nonzero_ind
         self.use_bias = use_bias
         self.kernel_initializer = initializers.get(kernel_initializer)
-        self.kernel_regularizer = regularizers.get(W_regularizer)
+        self.kernel_regularizer = regularizers.get(kernel_regularizer)
         self.bias_initializer = initializers.get(bias_initializer)
         self.bias_regularizer = regularizers.get(bias_regularizer)
         self.activation_fn = activations.get(activation)
@@ -331,7 +331,7 @@ class SparseTF(Layer):
             'bias_regularizer': regularizers.serialize(self.bias_regularizer),
 
             'kernel_initializer': initializers.serialize(self.kernel_initializer),
-            'W_regularizer': regularizers.serialize(self.kernel_regularizer),
+#             'W_regularizer': regularizers.serialize(self.kernel_regularizer),
 
         }
         base_config = super(SparseTF, self).get_config()
@@ -356,7 +356,7 @@ class SpraseLayerTF(Layer):
                  use_bias=True,
                  kernel_initializer='glorot_uniform',
                  bias_initializer='zeros',
-                 W_regularizer=None,
+                 kernel_regularizer=None,
                  bias_regularizer=None,
 
                  **kwargs):
@@ -368,7 +368,7 @@ class SpraseLayerTF(Layer):
         self.use_bias = use_bias
         self.bias_initializer = initializers.get(bias_initializer)
         self.kernel_initializer = initializers.get(kernel_initializer)
-        self.kernel_regularizer = regularizers.get(W_regularizer)
+        self.kernel_regularizer = regularizers.get(kernel_regularizer)
         self.bias_regularizer = regularizers.get(bias_regularizer)
         super(SpraseLayerTF, self).__init__(**kwargs)
 
@@ -435,7 +435,7 @@ class SpraseLayerWithConnection(Layer):
                  use_bias=True,
                  kernel_initializer='glorot_uniform',
                  bias_initializer='zeros',
-                 W_regularizer=None,
+                 kernel_regularizer=None,
                  bias_regularizer=None,
 
                  **kwargs):
@@ -449,7 +449,7 @@ class SpraseLayerWithConnection(Layer):
         self.use_bias = use_bias
         self.bias_initializer = initializers.get(bias_initializer)
         self.kernel_initializer = initializers.get(kernel_initializer)
-        self.kernel_regularizer = regularizers.get(W_regularizer)
+        self.kernel_regularizer = regularizers.get(kernel_regularizer)
         self.bias_regularizer = regularizers.get(bias_regularizer)
 
     # the number of weights, equal the number of inputs to the layer

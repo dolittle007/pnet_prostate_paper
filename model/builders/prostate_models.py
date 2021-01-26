@@ -258,10 +258,12 @@ def build_dense(optimizer, n_weights, w_reg, activation='tanh', loss='binary_cro
     ins = Input(shape=(n_features,), dtype='float32', name='inputs')
     n = np.ceil(float(n_weights) / float(n_features))
     print(n)
-    layer1 = Dense(units=int(n), activation=activation, W_regularizer=l2(w_reg), name='h0')
+#     layer1 = Dense(units=int(n), activation=activation, W_regularizer=l2(w_reg), name='h0')
+    layer1 = Dense(units=int(n), activation=activation, kernel_regularizer=l2(w_reg), name='h0')
+
     outcome = layer1(ins)
     outcome = Dense(1, activation=activation_decision, name='output')(outcome)
-    model = Model(input=[ins], output=outcome)
+    model = Model([ins], outcome)
 
     model.compile(optimizer=optimizer,
                   loss='binary_crossentropy', metrics=[f1])

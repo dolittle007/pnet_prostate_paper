@@ -71,7 +71,7 @@ def get_validation_primary(cols, cnv_split):
     order = all_data.columns.levels[0]
     all_data = all_data.reindex(columns=order, level=0)
     all_data.fillna(0, inplace=True)
-    x = all_data.as_matrix()
+    x = all_data.values
     cols = all_data.columns
     rows = pd.DataFrame(index = all_data.index)
     y = np.zeros((x.shape[0], ))
@@ -100,7 +100,7 @@ def get_validation_quigley(cols, cnv_split) :
     order = all_data.columns.levels[0]
     all_data = all_data.reindex(columns=order, level=0)
     all_data.fillna(0, inplace=True)
-    x = all_data.as_matrix()
+    x = all_data.values
     cols = all_data.columns
     rows = pd.DataFrame(index = all_data.index)
     y = np.ones((x.shape[0], ))
@@ -223,7 +223,7 @@ def get_validation_metastatic(cols, cnv_split):
     print('validation x')
     print(all_data.head())
     all_data.to_csv('validatoin_met500.csv')
-    x = all_data.as_matrix()
+    x = all_data.values
 
     # x[x < 0.] = -1.
     # x[x > 0.] = 1.
@@ -282,7 +282,7 @@ class TrainValidatePipeline:
         genes_list = []
         input_shapes = []
         for g in genes:
-            g_df = x_df.loc[:, g].as_matrix()
+            g_df = x_df.loc[:, g].values
             input_shapes.append(g_df.shape[1])
             genes_list.append(g_df)
         return genes_list

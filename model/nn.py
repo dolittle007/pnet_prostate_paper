@@ -223,8 +223,14 @@ class Model(BaseEstimator):
             X_val, y_val = validation_data
 
         if self.n_outputs > 1:
+            class_weight_list={}
             y_train = [y_train] * self.n_outputs
             y_val = [y_val] * self.n_outputs
+            for output in self.model.outputs:
+                output_name= output.name.split('/')[0]
+                print ('output name name',output_name )
+                class_weight_list[output_name] = class_weights
+            print(class_weight_list)
 
         if not X_val is None:
             validation_data = [X_val, y_val]
@@ -234,7 +240,7 @@ class Model(BaseEstimator):
         history = self.model.fit(X_train, y_train, validation_data=validation_data, epochs=self.nb_epoch,
                                  batch_size=self.batch_size,
                                  verbose=self.verbose, callbacks=callbacks,
-                                 shuffle=self.shuffle, class_weight=[class_weights]*self.n_outputs)
+                                 shuffle=self.shuffle)
         plot_history(history.history, self.save_filename + '_validation')
 
         hist_df = pd.DataFrame(history.history)

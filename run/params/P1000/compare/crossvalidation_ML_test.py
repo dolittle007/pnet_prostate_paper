@@ -5,11 +5,11 @@ from os.path import dirname
 import numpy as np
 
 base_dirname = dirname(dirname(__file__))
-print base_dirname
+
 filename = os.path.basename(__file__)
 task = 'classification_binary'
 
-selected_genes = '~/DATA/P1000/tcga_prostate_expressed_genes_and_cancer_genes.csv'
+selected_genes = 'tcga_prostate_expressed_genes_and_cancer_genes.csv'
 data_base = {'id': 'ALL', 'type': 'prostate_paper',
              'params': {
                  'data_type': ['mut_important', 'cnv_del', 'cnv_amp'],

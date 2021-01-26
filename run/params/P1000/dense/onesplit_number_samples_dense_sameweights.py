@@ -7,10 +7,10 @@ import numpy as np
 from model.builders.prostate_models import build_dense
 
 base_dirname = dirname(dirname(__file__))
-print base_dirname
+
 filename = os.path.basename(__file__)
 task = 'classification_binary'
-selected_genes = '~/DATA/P1000/tcga_prostate_expressed_genes_and_cancer_genes.csv'
+selected_genes = 'tcga_prostate_expressed_genes_and_cancer_genes.csv'
 data_base = {'id': 'ALL', 'type': 'prostate_paper',
              'params': {
                  'data_type': ['mut_important', 'cnv_del', 'cnv_amp'],
@@ -28,7 +28,7 @@ data_base = {'id': 'ALL', 'type': 'prostate_paper',
 data = []
 
 splits = np.arange(0, 1)
-print splits
+
 for n in splits:
     d = deepcopy(data_base)
     d['id'] = 'data_{}'.format(n)

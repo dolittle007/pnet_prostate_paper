@@ -31,23 +31,23 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 params_file_list = []
 
 # pnet
-params_file_list.append('./pnet/onsplit_average_reg_10_tanh_large_testing')
+# params_file_list.append('./pnet/onsplit_average_reg_10_tanh_large_testing')
 # params_file = './params/p1000/pnet/onsplit_average_reg_10_tanh_large_testing_6layers'
-params_file_list.append('./pnet/crossvalidation_average_reg_10_tanh')
+# params_file_list.append('./pnet/crossvalidation_average_reg_10_tanh')
 # params_file = './params/p1000/pnet/crossvalidation_average_reg_10_tanh_split18'
 
 # other ML models
-params_file_list.append('./compare/onsplit_ML_test')
-params_file_list.append('./compare/crossvalidation_ML_test')
+# params_file_list.append('./compare/onsplit_ML_test')
+# params_file_list.append('./compare/crossvalidation_ML_test')
 
 # dense
-params_file_list.append('./dense/onesplit_number_samples_dense_sameweights')
-params_file_list.append('./dense/onsplit_dense')
+# params_file_list.append('./dense/onesplit_number_samples_dense_sameweights')
+# params_file_list.append('./dense/onsplit_dense')
 
 # number_samples
-params_file_list.append('./number_samples/crossvalidation_average_reg_10')
-params_file_list.append('./number_samples/crossvalidation_average_reg_10_tanh')
-params_file_list.append('./number_samples/crossvalidation_number_samples_dense_sameweights')
+# params_file_list.append('./number_samples/crossvalidation_average_reg_10')
+# params_file_list.append('./number_samples/crossvalidation_average_reg_10_tanh')
+# params_file_list.append('./number_samples/crossvalidation_number_samples_dense_sameweights')
 
 # external_validation
 params_file_list.append('./external_validation/pnet_validation')
