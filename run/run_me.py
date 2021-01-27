@@ -1,4 +1,5 @@
 import os
+os.environ['PYTHONHASHSEED'] = '0'
 import sys
 from os.path import join, dirname
 current_dir = dirname(os.path.realpath(__file__))
@@ -18,9 +19,10 @@ import numpy as np
 import tensorflow as tf
 
 random_seed = 234
+np.random.seed(random_seed)
 
 random.seed(random_seed)
-np.random.seed(random_seed)
+
 
 # tf.random.set_random_seed(random_seed)
 tf.random.set_seed(random_seed)
@@ -31,7 +33,7 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 params_file_list = []
 
 # pnet
-# params_file_list.append('./pnet/onsplit_average_reg_10_tanh_large_testing')
+params_file_list.append('./pnet/onsplit_average_reg_10_tanh_large_testing')
 # params_file = './params/p1000/pnet/onsplit_average_reg_10_tanh_large_testing_6layers'
 # params_file_list.append('./pnet/crossvalidation_average_reg_10_tanh')
 # params_file = './params/p1000/pnet/crossvalidation_average_reg_10_tanh_split18'
@@ -50,7 +52,7 @@ params_file_list = []
 # params_file_list.append('./number_samples/crossvalidation_number_samples_dense_sameweights')
 
 # external_validation
-params_file_list.append('./external_validation/pnet_validation')
+# params_file_list.append('./external_validation/pnet_validation')
 
 for params_file in params_file_list:
     log_dir = join(PROSTATE_LOG_PATH, params_file)

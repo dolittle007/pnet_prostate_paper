@@ -21,18 +21,18 @@ labels = labels.set_index('id')
 # print labels.head()
 
 all = df.join(labels, how='inner')
-print(all.head())
+print((all.head()))
 
 mets = all [all['Primary_Met' ]== 'Metastasis']
-print(mets['type'].value_counts())
+print((mets['type'].value_counts()))
 
 primary = all [all['Primary_Met' ]!= 'Metastasis']
-print(primary['type'].value_counts())
+print((primary['type'].value_counts()))
 
 # primary['type'].value_counts().plot(kind ='bar')
 fig, ax = plt.subplots(figsize=(15,7))
 # print pd.DataFrame(mets['type'].value_counts(), primary['type'].value_counts())
-print(all.groupby(['Primary_Met','type']).count()['Tumor_Sample_Barcode'].unstack())
+print((all.groupby(['Primary_Met','type']).count()['Tumor_Sample_Barcode'].unstack()))
 all.groupby(['type','Primary_Met']).count()['Tumor_Sample_Barcode'].sort('').unstack().plot(kind='bar')
 
 # mets['type'].value_counts().plot(kind ='bar')

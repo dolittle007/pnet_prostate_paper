@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 from os.path import join
 import seaborn as sns
 import numpy as np
+from os.path import join, dirname
+import os
 
 def plot_high_genes_sns(df, col='avg_score', name='', saving_dir='.'):
     df.index=df.index.map(shorten_names)
@@ -54,7 +56,7 @@ def plot_high_genes(df, col='avg_score', name='', saving_dir='.'):
     plt.gcf().subplots_adjust(left=0.35)
     filename = join(saving_dir, name + '_high.png')
 
-    print('saving histogram', filename)
+    print(('saving histogram', filename))
     plt.savefig(filename)
 
 
@@ -63,7 +65,7 @@ def plot_high_genes_histogram(df_in, features, y, name, saving_dir):
     df_in = df_in.join(y)
     df_in['group'] = df_in.response
     df2 = pd.melt(df_in, id_vars='group', value_vars=list(features), value_name='value')
-    print(df2.head())
+    print((df2.head()))
     plt.figure()
     bins = np.linspace(df2.value.min(), df2.value.max(), 20)
     g = sns.FacetGrid(df2, col="variable", hue="group", col_wrap=2)
@@ -71,7 +73,7 @@ def plot_high_genes_histogram(df_in, features, y, name, saving_dir):
     g.axes[-1].legend(['primary', 'metastatic'])
     filename = join(saving_dir, name + '_importance_histogram.png')
 
-    print('saving histogram', filename)
+    print(('saving histogram', filename))
     plt.savefig(filename)
     plt.close()
 
@@ -98,7 +100,7 @@ def plot_high_genes_violinplot(df_in, features, y, name, saving_dir):
     plt.xlabel('Pathways')
     plt.ylabel('Importance')
 
-    print('saving violinplot', filename)
+    print(('saving violinplot', filename))
     plt.savefig(filename)
     plt.close()
 
@@ -107,11 +109,11 @@ def plot_high_genes_swarm(df_in, features, y, name, saving_dir):
     df_in = df_in.copy()
     df_in = df_in.join(y)
     df_in['group'] = df_in.response
-    print(df_in.head())
+    print((df_in.head()))
     df2 = pd.melt(df_in, id_vars='group', value_vars=list(features), value_name='value')
     df2['group'] = df2['group'].replace(0, 'Primary')
     df2['group'] = df2['group'].replace(1, 'Metastatic')
-    print(df2.head())
+    print((df2.head()))
     df2.value= df2.value.abs()
     fig, ax = plt.subplots(figsize=(10, 7))
     # df2['color'] =  'rgba(31, 119, 180, 0.7)'
@@ -140,7 +142,7 @@ def plot_high_genes_swarm(df_in, features, y, name, saving_dir):
     ax.spines['bottom'].set_visible(False)
     # ax.spines['left'].set_visible(False)
     plt.gcf().subplots_adjust(bottom=0.2)
-    print('saving swarm', filename)
+    print(('saving swarm', filename))
     plt.savefig(filename)
     plt.close()
 
@@ -246,19 +248,25 @@ def shorten_names(name):
     return name
 
 
+current_dir = dirname(os.path.realpath(__file__))
+saving_dir= join(current_dir, 'output/importance')
 
 if __name__ == "__main__":
-    node_importance = pd.read_csv('../extracted/node_importance_graph_adjusted.csv', index_col=0)
-    response = pd.read_csv('../extracted/response.csv', index_col=0)
-    print(response.head())
+    filename = join(current_dir, 'extracted/node_importance_graph_adjusted.csv')
+    # node_importance = pd.read_csv('../extracted/node_importance_graph_adjusted.csv', index_col=0)
+    node_importance = pd.read_csv(filename, index_col=0)
+    # response = pd.read_csv('../extracted/response.csv', index_col=0)
+    filename = join(current_dir, 'extracted/response.csv')
+    response = pd.read_csv(filename, index_col=0)
+    print((response.head()))
     layers = list(node_importance.layer.unique())
-    saving_dir = './output/importance'
+    # saving_dir = './output/importance'
     for l in layers:
         fig = plt.figure(figsize=(8, 4), dpi=200)
         print(l)
         if l==1:
             high_nodes = node_importance[node_importance.layer == l].abs().nlargest(10, columns=['coef_combined'])
-            plot_high_genes_sns(high_nodes, col='coef_combined', name=str(l), saving_dir='./output/importance')
+            plot_high_genes_sns(high_nodes, col='coef_combined', name=str(l), saving_dir=saving_dir)
         else:
 
             high_nodes = node_importance[node_importance.layer == l].abs().nlargest(10, columns=['coef'])
@@ -271,6 +279,6 @@ if __name__ == "__main__":
 
         plt.gcf().subplots_adjust(left=shift)
         filename = join(saving_dir, str(l) + '_high.png')
-        print('saving', filename)
+        print(('saving', filename))
         plt.savefig(filename)
-        high_nodes.to_csv('./output/layer_high_{}.csv'.format(l))
+        high_nodes.to_csv(join(saving_dir,'layer_high_{}.csv'.format(l)))

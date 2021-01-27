@@ -50,7 +50,7 @@ nn_pathway = {
                                       select_best_model=False,
                                       monitor='val_o6_f1',
                                       verbose=2,
-                                      epoch=300,
+                                      epoch=5,
                                       shuffle=True,
                                       batch_size=50,
                                       save_name='pnet',
@@ -74,6 +74,6 @@ models = [nn_pathway]
 class_weight = {0: 0.75, 1: 1.5}
 logistic = {'type': 'sgd', 'id': 'Logistic Regression',
             'params': {'loss': 'log', 'penalty': 'l2', 'alpha': 0.01, 'class_weight': class_weight}}
-models.append(logistic)
+# models.append(logistic)
 
 pipeline = {'type': 'one_split', 'params': {'save_train': True, 'eval_dataset': 'test'}}

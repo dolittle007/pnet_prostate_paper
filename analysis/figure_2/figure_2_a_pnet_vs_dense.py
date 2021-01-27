@@ -8,15 +8,16 @@ from scipy import stats
 from scipy.optimize import curve_fit
 import seaborn as sns
 from config_path import PROSTATE_LOG_PATH, PROSTATE_DATA_PATH
-
+import os
 
 # current_dir = dirname(dirname(dirname(realpath(__file__))))
-
+current_dir = dirname(os.path.realpath(__file__))
 
 def get_dense_sameweights(col='f1'):
     # filename = '/run/logs/prostate/prostate_paper/candidates/1/dense/'
     # filename = join(current_dir, 'run/logs/p1000/dense/crossvalidation_average_reg_10_Apr-11_16-04')
-    filename = join(PROSTATE_LOG_PATH, 'number_samples/crossvalidation_number_samples_dense_sameweights_Apr-13_15-25')
+    # filename = join(PROSTATE_LOG_PATH, 'number_samples/crossvalidation_number_samples_dense_sameweights_Apr-13_15-25')
+    filename = join(PROSTATE_LOG_PATH, 'number_samples/crossvalidation_number_samples_dense_sameweights')
     # exp_name = 'crossvalidation_number_samples_dense_sameweights_Jan-10_17-46'
 
 
@@ -42,7 +43,8 @@ def get_dense_sameweights(col='f1'):
 def get_pnet_preformance(col='f1'):
     # filename = join(current_dir, 'run/logs/p1000/number_samples/crossvalidation_average_reg_10_Apr-11_16-06')
     # filename = join(current_dir, 'run/logs/p1000/number_samples/crossvalidation_average_reg_10_tanh_Apr-13_17-18')
-    filename = join(PROSTATE_LOG_PATH, 'number_samples/crossvalidation_average_reg_10_tanh_Apr-13_18-32')
+    # filename = join(PROSTATE_LOG_PATH, 'number_samples/crossvalidation_average_reg_10_tanh_Apr-13_18-32')
+    filename = join(PROSTATE_LOG_PATH, 'number_samples/crossvalidation_average_reg_10_tanh')
     filename = filename+'/folds.csv'
     #
     # filename = '~/PycharmProjects/ml_pipeline/run/logs/prostate/prostate_paper/candidates/1/number_samples/'
@@ -125,8 +127,8 @@ def plot_(df_pnet, df_dense):
 
 
     print(l)
-    print(list(zip(sizes,ratio)))
-    print(list(zip(sizes,pvalues)))
+    print((list(zip(sizes,ratio))))
+    print((list(zip(sizes,pvalues))))
 
 
     bar_width= 25
@@ -186,7 +188,7 @@ print(sizes)
 # # col = 'f1'
 
 def get_stats(df_pnet, df_dense):
-    print(df_pnet.shape, df_dense.shape)
+    print((df_pnet.shape, df_dense.shape))
     pvalues = []
     for c1, c2 in zip(df_pnet.columns, df_dense.columns):
         # print c
@@ -234,7 +236,7 @@ def plot_pnet_vs_dense_with_ratio(ax, c, label, plot_ratio=False):
     y1 = df_pnet.mean()
     y2 = df_dense_sameweights.mean()
     height = list(map(max, list(zip(y1, y2))))
-    print('height', height)
+    print(('height', height))
     updated_values=[]
     for i, (p, s) in enumerate(zip(pvalues, sizes)):
         # height = .005 + ratio[i]
@@ -333,8 +335,8 @@ def plot_pnet_vs_dense_ratio(ax2, c = 'auc'):
 
     ratio = (y1.values - y2.values) / y2.values
     pvalues = get_stats(df_pnet, df_dense)
-    print(list(zip(sizes, ratio)))
-    print(list(zip(sizes, pvalues)))
+    print((list(zip(sizes, ratio))))
+    print((list(zip(sizes, pvalues))))
 
     bar_width = 30
     fontsize = 10
@@ -378,7 +380,8 @@ def plot_pnet_vs_dense_ratio(ax2, c = 'auc'):
 
 
 base_dir = PROSTATE_LOG_PATH
-models_base_dir = join(base_dir , 'compare/onsplit_ML_test_Apr-11_11-34')
+# models_base_dir = join(base_dir , 'compare/onsplit_ML_test_Apr-11_11-34')
+models_base_dir = join(base_dir , 'compare/onsplit_ML_test')
 
 if __name__ =='__main__':
 
@@ -392,7 +395,7 @@ if __name__ =='__main__':
     ax.spines['left'].set_visible(False)
     ax.spines['bottom'].set_visible(False)
     plt.subplots_adjust(bottom=0.15, right=0.85, left=0.15)
-    plt.savefig('./output/pnet_vs_dense_sameweights_auc_with_ratio.png', dpi=200)
+    plt.savefig(join(current_dir, './output/pnet_vs_dense_sameweights_auc_with_ratio.png'), dpi=200)
     plt.close()
 
     # supp figures other metrics
@@ -402,7 +405,7 @@ if __name__ =='__main__':
         ax = fig.subplots(1, 1)
         plot_pnet_vs_dense_with_ratio(ax, c, label=l, plot_ratio=False)
         plt.subplots_adjust(bottom=0.15)
-        plt.savefig('./output/pnet_vs_dense_sameweights_{}.png'.format(c), dpi=200)
+        plt.savefig(join(current_dir,'./output/pnet_vs_dense_sameweights_{}.png'.format(c)), dpi=200)
         plt.close()
 
         # df_dense_sameweights = get_dense_sameweights(c)

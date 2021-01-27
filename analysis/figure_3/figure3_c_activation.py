@@ -45,11 +45,11 @@ def plot_high_genes_pairplot(df_in, y, name, saving_dir):
     dd["group"] = y
     dd['group'] = dd['group'].replace(0, '0-Primary')
     dd['group'] = dd['group'].replace(1, '1-Metastatic')
-    print(dd.head())
+    print((dd.head()))
     g = sns.pairplot(dd, hue="group")
 
     g.map(corrfunc)
-    print('saving pairplot', filename)
+    print(('saving pairplot', filename))
     plt.savefig(filename)
     plt.savefig(filename + '.pdf')
     plt.close()

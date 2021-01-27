@@ -1,10 +1,12 @@
 import pandas as pd
 import os
 import matplotlib.pyplot as plt
-from os.path import join
+from os.path import join, dirname
 import seaborn as sns
 import numpy as np
+import os
 
+current_dir = dirname(os.path.realpath(__file__))
 
 def plot_high_genes(df, col='avg_score', name='', saving_dir='.'):
     if not os.path.exists(saving_dir):
@@ -37,7 +39,7 @@ def plot_high_genes(df, col='avg_score', name='', saving_dir='.'):
     plt.gcf().subplots_adjust(left=0.35)
     filename = join(saving_dir, name + '_high.png')
 
-    print('saving histogram', filename)
+    print(('saving histogram', filename))
     plt.savefig(filename)
 
 
@@ -46,7 +48,7 @@ def plot_high_genes_histogram(df_in, features, y, name, saving_dir):
     df_in = df_in.join(y)
     df_in['group'] = df_in.response
     df2 = pd.melt(df_in, id_vars='group', value_vars=list(features), value_name='value')
-    print(df2.head())
+    print((df2.head()))
     plt.figure()
     bins = np.linspace(df2.value.min(), df2.value.max(), 20)
     g = sns.FacetGrid(df2, col="variable", hue="group", col_wrap=2)
@@ -54,7 +56,7 @@ def plot_high_genes_histogram(df_in, features, y, name, saving_dir):
     g.axes[-1].legend(['primary', 'metastatic'])
     filename = join(saving_dir, name + '_importance_histogram.png')
 
-    print('saving histogram', filename)
+    print(('saving histogram', filename))
     plt.savefig(filename)
     plt.close()
 
@@ -81,7 +83,7 @@ def plot_high_genes_violinplot(df_in, features, y, name, saving_dir):
     plt.xlabel('Pathways')
     plt.ylabel('Importance')
 
-    print('saving violinplot', filename)
+    print(('saving violinplot', filename))
     plt.savefig(filename)
     plt.close()
 
@@ -90,11 +92,11 @@ def plot_high_genes_swarm(df_in, features, y, name, saving_dir):
     df_in = df_in.copy()
     df_in = df_in.join(y)
     df_in['group'] = df_in.response
-    print(df_in.head())
+    print((df_in.head()))
     df2 = pd.melt(df_in, id_vars='group', value_vars=list(features), value_name='value')
     df2['group'] = df2['group'].replace(0, 'Primary')
     df2['group'] = df2['group'].replace(1, 'Metastatic')
-    print(df2.head())
+    print((df2.head()))
     df2.value= df2.value.abs()
     fig, ax = plt.subplots(figsize=(10, 7))
     # df2['color'] =  'rgba(31, 119, 180, 0.7)'
@@ -123,7 +125,7 @@ def plot_high_genes_swarm(df_in, features, y, name, saving_dir):
     ax.spines['bottom'].set_visible(False)
     # ax.spines['left'].set_visible(False)
     plt.gcf().subplots_adjust(bottom=0.2)
-    print('saving swarm', filename)
+    print(('saving swarm', filename))
     plt.savefig(filename)
     plt.close()
 
@@ -133,7 +135,7 @@ if __name__=="__main__":
     # important_node_connections_df =pd.read_csv('connections_others.csv', index_col=0)
     # print important_node_connections_df.head()
     response = pd.read_csv('../extracted/response.csv', index_col=0)
-    print(response.head())
+    print((response.head()))
     layers= list(node_importance.layer.unique())
 
     for l in layers:
@@ -153,8 +155,9 @@ if __name__=="__main__":
         y = response
         # if l==1:
         #     plot_high_genes_swarm(df, features, y, name=str(l), saving_dir='./output/importance')
-        plot_high_genes_histogram(df, features, y, name=str(l), saving_dir='./output/importance')
-        plot_high_genes_violinplot(df, features, y, name=str(l), saving_dir='./output/importance')
+        saving_dir = join(current_dir, './output/importance')
+        plot_high_genes_histogram(df, features, y, name=str(l), saving_dir=saving_dir)
+        plot_high_genes_violinplot(df, features, y, name=str(l), saving_dir=saving_dir)
 
 
 def plot_high_genes(ax, layer=1, graph ='hist', direction='h'):

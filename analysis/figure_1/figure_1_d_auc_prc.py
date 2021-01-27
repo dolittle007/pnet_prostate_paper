@@ -105,13 +105,13 @@ def plot_prc_all(ax):
 
     sorted_dict = sorted(list(sorted_dict.items()), key=lambda kv: kv[1])
     sorted_dict = collections.OrderedDict(sorted_dict)
-    print('sorted_dict', sorted_dict)
+    print(('sorted_dict', sorted_dict))
 
     for i, k in enumerate(sorted_dict.keys()):
         df = all_models_dict[k]
         y_test = df['y']
         y_pred_score = df['pred_scores']
-        print(i,k)
+        print((i,k))
         plot_prc(ax, y_test, y_pred_score, None, label=k, color=colors[i])
 
     f_scores = np.linspace(0.2, 0.8, num=4)

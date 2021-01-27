@@ -248,7 +248,7 @@ class SparseTF(Layer):
         # self.kernel_sparse = tf.SparseTensor(self.nonzero_ind, sA.data, sA.shape)
         # self.kernel_dense = tf.Variable(self.map)
 
-        nonzero_count = self.nonzero_ind.shape[0]
+        nonzero_count = np.array(self.nonzero_ind).shape[0]
 
         # initializer = initializers.get('uniform')
         # print 'nonzero_count', nonzero_count

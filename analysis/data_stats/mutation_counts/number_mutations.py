@@ -19,12 +19,12 @@ filename = '41588_2018_78_MOESM4_ESM.txt'
 # df = pd.read_csv(join(input_dir, filename), sep='\t', low_memory=False)
 df = pd.read_csv(join(input_dir, filename), sep='\t', low_memory=False, skiprows=1)
 
-print(df.columns)
+print((df.columns))
 bins = list(range(1, 26))
 df2 = df.sort_values('chr')
 
 sizes = pd.read_csv('chromosome_size.txt', sep='\t')
-print(sizes.shape)
+print((sizes.shape))
 # value_counts = np.log(1+df2['chr'].value_counts())
 value_counts = df2['chr'].value_counts()
 # np.log(1+value_counts]
@@ -51,7 +51,7 @@ plt.savefig('chr_counts')
 fig =plt.figure()
 fig.set_size_inches(10.5, 6.5)
 
-print(df['type'].value_counts())
+print((df['type'].value_counts()))
 # df['type'].value_counts().plot(kind ='bar')
 value_counts = np.log(1 +  df['type'].value_counts())
 height = value_counts

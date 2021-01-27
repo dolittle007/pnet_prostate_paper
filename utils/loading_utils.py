@@ -41,21 +41,25 @@ class DataModelLoader():
     def load_model(self,model_dir_, model_name):
         # 1 - load architecture
         params_filename = join(model_dir_, model_name+'_params.yml')
-        stream = file(params_filename, 'r')
-        params = yaml.load(stream)
-        # print params
+        # stream = file(params_filename, 'r')
+        # stream = open(params_filename, 'r')
+        with open(params_filename, 'r') as stream:
+            params = yaml.load(stream)
+        print('model_params', params)
         # fs_model = model_factory.get_model(params['model_params'][0])
         fs_model = model_factory.get_model(params['model_params'])
         # 2 -compile model and load weights (link weights)
         # weights_file = join(model_dir_, 'fs/P-net.h5')
         weights_file = join(model_dir_, 'fs/{}.h5'.format(model_name))
-        # print(fs_model.model.model_params)
+        
         model = fs_model.load_model(weights_file)
+        print(fs_model.model.summary())
         return model
 
     def load_parmas(self, params_filename):
-        stream = file(params_filename, 'r')
-        params = yaml.load(stream, Loader=yaml.UnsafeLoader)
+        # stream = file(params_filename, 'r')
+        with open(params_filename, 'r') as stream:
+            params = yaml.load(stream, Loader=yaml.UnsafeLoader)
         model_parmas = params['model_params']
         data_parmas = params['data_params']
         return model_parmas, data_parmas

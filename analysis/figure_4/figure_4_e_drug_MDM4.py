@@ -20,7 +20,7 @@ df = pd.read_excel('./CRISPR/092420 Data.xlsx', sheet_name='RO drug curves', hea
 # cols= ['RO5963'] + ['LNCaP']*6 +['PC3']*6 +['DU145']*6
 cols= ['LNCaP']*6 +['PC3']*6 +['DU145']*6
 # df = df[['LNCaP']*6]
-print(df.head())
+print((df.head()))
 # exps= df.columns.levels[0]
 exps=['LNCaP', 'PC3', 'DU145']
 print(exps)
@@ -47,7 +47,7 @@ for i, exp in enumerate(exps):
     # p0 = [.5, 10., 0.0]  # initial guess
     popt, pcov = curve_fit(sigmoid, xdata, ydata, p0,method='dogbox', maxfev=60000)
     # popt, pcov = curve_fit(sigmoid, xdata, ydata,method='dogbox', maxfev=60000)
-    print(exp, popt)
+    print((exp, popt))
     # print popt, pcov
     #
     plt.errorbar(X,mean,yerr=stdv,fmt='o',ms=5,color=colors[exp],alpha=0.75,capsize=3, label=exp)
@@ -61,7 +61,7 @@ plt.xscale('log')
 plt.ylim((-.6, 1.6))
 plt.subplots_adjust(left=0.2, bottom=0.2, right=0.8)
 plt.ylabel('Relative Viability',fontdict=dict(family='Arial', weight='bold', fontsize=14) )
-plt.xlabel('\u03bcM RO-5963',fontdict=dict(family='Arial', weight='bold', fontsize=14) )
+plt.xlabel('\\u03bcM RO-5963',fontdict=dict(family='Arial', weight='bold', fontsize=14) )
 ax.spines['bottom'].set_position(('data',  0.))
 ax.spines['right'].set_visible(False)
 ax.spines['top'].set_visible(False)

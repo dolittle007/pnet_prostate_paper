@@ -64,7 +64,7 @@ def get_clinical():
 def plot_score_vs_pfs_time(filename, correct_prediction):
     clinical_df = get_clinical()
     df, correct, wrong = get_predictions(filename, correct_prediction=correct_prediction)
-    print(df.shape, correct.shape, wrong.shape)
+    print((df.shape, correct.shape, wrong.shape))
 
     def plot_data(dd, label):
         plt.figure()
@@ -316,14 +316,14 @@ def plot_surv(ax, filename, correct_prediction):
     # sns.set_context("paper", font_scale=1)
     clinical_df = get_clinical()
     df, correct, wrong = get_predictions(filename, correct_prediction)
-    print(correct.shape, wrong.shape)
+    print((correct.shape, wrong.shape))
     correct_full = clinical_df.merge(correct, how='inner', left_on='Patient.ID', right_index=True)
     wrong_full = clinical_df.merge(wrong, how='inner', left_on='Patient.ID', right_index=True)
 
     wrong_full = wrong_full.dropna(subset=['PFS.time', 'PFS'])
     correct_full = correct_full.dropna(subset=['PFS.time', 'PFS'])
-    print(correct_full.shape)
-    print(wrong_full.shape)
+    print((correct_full.shape))
+    print((wrong_full.shape))
 
     # fig = plt.figure(figsize=(8, 6))
     # ax = plt.subplot()

@@ -89,7 +89,7 @@ for i, gene in enumerate(interesting):
         ind = df.index.str.contains(gene)
         x = list(ind).index(True)
         y= df['Z-LFC AVERAGE Enzalutimide'][x]
-        print(gene, x, y)
+        print((gene, x, y))
         # ax2.plot(x, y, 'r*')
         # ax2.text(x+170, y, gene, fontdict=dict( fontsize=8))
         xytext=(direction[i]*30,-2 )

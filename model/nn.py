@@ -342,7 +342,7 @@ class Model(BaseEstimator):
         layer = self.model.get_layer(layer_name)
         inp = self.model.input
         functor = K.function(inputs=[inp, K.learning_phase()], outputs=[layer.output])  # evaluation function
-        layer_outs = functor([X, 0.])
+        layer_outs = functor([X, 0])
         return layer_outs
 
     def get_layer_outputs(self, X):
@@ -356,7 +356,7 @@ class Model(BaseEstimator):
         # functors = [K.function([inp] + [K.learning_phase()], [out]) for out in outputs]  # evaluation functions
         # functors = [K.function([inp] + [K.learning_phase()], [out]) for out in outputs]  # evaluation functions
         functor = K.function(inputs=[inp, K.learning_phase()], outputs=outputs)  # evaluation function
-        layer_outs = functor([X, 0.])
+        layer_outs = functor([X, 0])
         # layer_outs = [func([X, 1.]) for func in functors]
         ret = dict(list(zip(layer_names, layer_outs)))
         return ret
@@ -368,7 +368,17 @@ class Model(BaseEstimator):
             json_file.write(model_json)
         self.model.save_weights(filename)
 
+        # filename = filename.replace('.h5', '')
+        # self.model.save(filename, save_format='tf')
+
+
     def load_model(self, filename):
+        #python 3, tf 2.0.0,  and keras 2.2.4-tf (loading does not work ??)
+        # from keras.models import model_from_json, load_model
+        # from model.layers_custom import Diagonal, SparseTF, f1
+        # filename = filename.replace('.h5', '')
+        # self.model = load_model(filename, custom_objects={'Diagonal': Diagonal, 'SparseTF':SparseTF, 'f1': f1})
+    
         ret = self.build_fn(**self.model_params)
         if type(ret) == tuple:
             self.model, self.feature_names = ret

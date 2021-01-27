@@ -1,11 +1,13 @@
 import itertools
-
+import os
 import pandas as pd
 from matplotlib import pyplot as plt, ticker
-from os.path import join
 import numpy as np
 from matplotlib import colors
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from os.path import join, realpath, dirname
+
+current_dir = dirname(os.path.realpath(__file__))
 
 def plot_(primary):
     percent = 100*primary/sum(primary)
@@ -110,9 +112,11 @@ def plot_stacked(ax, filename, correct, wrong):
 #     saving_filename = join(dirname(filename), 'BCR_distribution.png')
 #     print saving_filename
 #     plt.savefig(saving_filename)
-
+...
 primary = np.array([95,35])
-mets = np.array([72,23])
+mets= np.array([33,7])
+# primary = np.array([95,35])
+# mets = np.array([72,23])
 
 def plot_external_validation_all(ax):
     plot_stacked(ax, '', primary, mets)
@@ -178,18 +182,18 @@ def plot_external_validation_matrix(ax):
 if __name__ =='__main__':
 
     plot_(primary)
-    plt.savefig('./output/external_validation_primary.png',  dpi=600)
+    plt.savefig(join(current_dir,'./output/external_validation_primary.png'),  dpi=600)
 
     plot_(mets)
-    plt.savefig('./output/external_validation_mets.png', dpi=600)
+    plt.savefig(join(current_dir,'./output/external_validation_mets.png'), dpi=600)
 
     fig, axes = plt.subplots(nrows=1, ncols=1, sharey=True)
     fig.set_size_inches(5, 7)
     ax = axes
     plot_stacked(ax, '', primary, mets)
-    plt.savefig('./output/external_validation_all.png', dpi=600)
+    plt.savefig(join(current_dir,'./output/external_validation_all.png'), dpi=600)
 
     fig= plt.figure(figsize=(4,4))
     ax= fig.subplots(1,1)
     plot_external_validation_matrix(ax)
-    plt.savefig('./output/external_validation_matrix.png', dpi=200)
+    plt.savefig(join(current_dir,'./output/external_validation_matrix.png'), dpi=200)
